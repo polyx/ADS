@@ -1,0 +1,19 @@
+{
+  "launch_path": "./index.html",
+  "default_locale": "en",
+  "activities": {
+    "dhis": {
+      "href": "*"
+    }
+  },
+  "appType": "APP",
+  "name": "DHIS facility list manager",
+  "version": "0.1",
+  "description": "A facility manager for DHIS2.",
+  "developer": {
+    "name": "team ads"
+  },
+  "icons": {
+    "48": "favicon.png"
+  }
+}
