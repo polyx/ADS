@@ -4,10 +4,12 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
     "react-dom": "^16.0.0",
     "react-scripts": "1.0.14",
-    "typeface-roboto": "0.0.45"
+    "treeview-react-bootstrap": "^0.4.6"
   },
   "scripts": {
     "start": "react-scripts start",
