@@ -15,6 +15,11 @@ class App extends React.Component {
     this.readyBaseUrl = false;
   }
 
+  componentDidMount() {
+    this.getBasePath();
+    console.log('debug2');
+  }
+
   getBasePath() {
     fetch('./manifest.webapp', 
     {
@@ -36,20 +41,27 @@ class App extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.getBasePath();
-    console.log('debug2');
+  mainRender() {
+    if (this.readBaseUrl) {
+      return(
+        <div>
+          <HeaderArea/>
+          <BodyArea />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <p>Loading...<p/>
+        <div>
+      );
+    }
   }
 
 
   render() {
     console.log('debug3');
-    return (
-      <div>
-        <HeaderArea/>
-        <BodyArea />
-      </div>
-    );
+    <mainRender />
   }
 }
 
