@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {baseUrl} from './App.js';
+// import {baseUrl} from './App.js';
 
+const baseUrl = 'https://play.dhis2.org/demo/api';
 
 // The following function loads data elements from the API
 // It takes one parameter - the page number. If no page number is specified, 1 is used by default
@@ -13,11 +14,11 @@ function LoadDataElements(page = 1) {
   // Request one page of data elements from the DHIS API using fetch
   // Fetch returns a Promise that resolves to a Response object after the request has completed
   fetch(`${baseUrl}/dataElements?fields=id,displayName,href&page=${page}`, {
-    headers: {
-      // Change the next line if your username/password is different
-      Authorization: `Basic ${btoa('admin:district')}`,
-    },
-    //credentials: "include"
+    // headers: {
+    //   // Change the next line if your username/password is different
+    //   Authorization: `Basic ${btoa('admin:district')}`,
+    // },
+    credentials: "include"
   })
   // The .json() method on the Response object returns a Promise that resolves to some
   // data if valid JSON was returned from the server, and rejects with an error otherwise.

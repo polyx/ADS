@@ -1,37 +1,19 @@
 import React from 'react';
 import TreeView from 'treeview-react-bootstrap';
+// import TreeView from '../../node_modules/react-bootstrap-treeview/src/react-bootstrap-treeview';
+import PropTypes from 'prop-types';
 
-const data = [
-  {
-    text: "Parent 1",
-    nodes: [
-      {
-        text: "Child 1",
-        nodes: [
-          {
-            text: "Grandchild 1"
-          },
-          {
-            text: "Grandchild 2"            
-          }
-        ]
-      },
-      {
-        text: "Child 2"
-      }
-    ]
-  },
-  {
-    text: "Parent 2"
-  }
-];
 
 export default class TreeArea extends React.Component {
 
   render() {
     return(
-      <TreeView data={data} selectable={false} showBorder={false}/>
+      // <TreeView data={this.props.orgUnits} levels={0} showBorder={false} selectable={false} />
+      <TreeView data={this.props.orgUnits}/>
     );
   }
+}
 
+TreeArea.PropTypes = {
+  orgUnits: PropTypes.array.isRequired,
 }

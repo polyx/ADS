@@ -3,66 +3,41 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import HeaderArea from './HeaderArea';
 import BodyArea from './BodyArea';
+import {getBaseUrl} from '../components/BaseUrl';
 
-
-const demoUrl = 'https://play.dhis2.org/demo/api';
-export var baseUrl;
-
-class App extends React.Component {
+export default class App extends React.Component {
 
   constructor() {
     super();
-    this.readyBaseUrl = false;
+    this.state = {isUrlReady: false};
   }
 
-  componentDidMount() {
-    this.getBasePath();
-    console.log('debug2');
+  async componentDidMount() {
+    await getBaseUrl;
+    this.setState({isUrlReady: true})
   }
 
-  getBasePath() {
-    fetch('./manifest.webapp', 
-    {
-      credentials: "include"
-    })
-    .then((resp) => resp.json())
-    .then((data) => {
-      let url = data.activities.dhis.href;
-      if (url === '*') {
-        baseUrl = demoUrl;      
-      } else {
-        baseUrl = url + '/api';
-      }
-      this.readyBaseUrl = true;
-      console.log('baseUrl is set to:' + baseUrl);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  mainRender (){
+    return(
+      <div>
+        <HeaderArea/>
+        <BodyArea/>
+      </div>
+    );
   }
 
-  mainRender() {
-    if (this.readBaseUrl) {
-      return(
-        <div>
-          <HeaderArea/>
-          <BodyArea />
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <p>Loading...<p/>
-        <div>
-      );
-    }
+  loadingRender() {
+    return(
+      <p>Loading...</p>
+    );
   }
-
 
   render() {
-    console.log('debug3');
-    <mainRender />
+    return(
+      <div>
+        {this.state.isUrlReady ? this.mainRender() : this.loadingRender()}
+      </div>
+    );
+    
   }
 }
-
-export default App;
