@@ -1,7 +1,10 @@
 import React from 'react';
-import TreeView from 'treeview-react-bootstrap';
+// import TreeView from 'treeview-react-bootstrap';
 // import TreeView from '../../node_modules/react-bootstrap-treeview/src/react-bootstrap-treeview';
+import TreeView from 'react-bootstrap-treeview/src/react-bootstrap-treeview';
+// import TreeView from 'react-bootstrap-treeview';
 import PropTypes from 'prop-types';
+
 
 
 export default class TreeArea extends React.Component {

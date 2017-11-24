@@ -12,7 +12,7 @@ export default class HeaderArea extends React.Component {
           <Navbar.Header>
             <Navbar.Brand>
                 <a href='#'> 
-                  <img src="../images/dhis2.png" alt="dhis2"/> 
+                  <img src="./dhis2.png" alt="dhis2"/> 
                 </a>
             </Navbar.Brand>
             <Navbar.Toggle />
