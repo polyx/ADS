@@ -1,6 +1,14 @@
 import {baseUrl} from './BaseUrl';
 
-export const loadOrgUnits = (query) => {
+
+export const loadOrgUnits = async () => {
+  let levelOne = await loadQuery('organisationUnits.json?paging=false&level=1&fields=id');
+  let tree = levelOne.organisationUnits;
+  await fetchChilderenRecurs(tree);
+  return tree;
+}
+
+const loadQuery = (query) => {
   return new Promise((resolve, reject) => {
     fetch(`${baseUrl}/${query}`, {
       credentials: "include"
@@ -21,16 +29,9 @@ export const loadOrgUnits = (query) => {
   });
 }
 
-export const createMainTree = async () => {
-  let levelOne = await loadOrgUnits('organisationUnits.json?paging=false&level=1&fields=id');
-  let tree = levelOne.organisationUnits;
-  await fetchChilderenRecurs(tree);
-  return tree;
-}
-
 const fetchChilderenRecurs = async (nodes) => {
   await Promise.all(nodes.map(async(node) => {
-    const{displayName, children} = await loadOrgUnits('organisationUnits/' + node.id +'?fields=displayName,children');    
+    const{displayName, children} = await loadQuery('organisationUnits/' + node.id +'?fields=displayName,children');    
     node.displayName = displayName;
     if (children.length !== 0) {
       node.children = children;

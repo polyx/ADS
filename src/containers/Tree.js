@@ -1,8 +1,8 @@
 import React from 'react';
 import TreeView from 'react-treeview/lib/react-treeview';
 import "react-treeview/react-treeview.css";
+import "../css/treeview-local.css";
 import PropTypes from 'prop-types';
-import {loadOrgUnits} from '../components/LoadData';
 
 
 export default class Tree extends React.Component {
@@ -51,7 +51,7 @@ export default class Tree extends React.Component {
     let makeLeaf = (node) => {
       return (
         <div 
-          className='info' 
+          className='info'
           key={node.id}
           onClick={this.handleClickLabel.bind(null, node.id)}>
             {node.displayName}
