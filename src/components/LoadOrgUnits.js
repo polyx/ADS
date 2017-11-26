@@ -36,7 +36,7 @@ const fetchChilderenRecurs = async (nodes) => {
     if (children.length !== 0) {
       node.children = children;
       //TODO: uncomment this when deploying
-      await fetchChilderenRecurs(node.children);
+      //await fetchChilderenRecurs(node.children);
     }
   }));
 

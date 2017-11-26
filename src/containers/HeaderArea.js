@@ -1,44 +1,43 @@
 import React from 'react';
-import Navbar from 'react-bootstrap/lib/Navbar';
-import Nav from 'react-bootstrap/lib/Nav';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import Button from 'react-bootstrap/lib/Button';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
+import {Navbar} from 'react-bootstrap';
 import {baseUrl} from '../components/BaseUrl';
 import MenuArea from './MenuArea';
+import SearchArea from './SearchArea';
+import PropTypes from 'prop-types';
 
 export default class HeaderArea extends React.Component {
-  
+
+  constructor() {
+    super();
+    this.state = {
+      homeUrl: baseUrl.replace('/api',''),
+    }
+  }
 
   render() {
-    let homeUrl = baseUrl.replace('/api','');
-    console.log(homeUrl);
     return (
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-              <a href={homeUrl}> 
+              <a href={this.state.homeUrl}> 
                 <img src="./dhis2.png" alt="dhis2"/> 
               </a>
           </Navbar.Brand>
-          <Navbar.Toggle />
+        <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Navbar.Form pullLeft>
-            <FormGroup>
-            <FormControl type="text" placeholder="Search" />
-            </FormGroup>
-            {' '}
-            <Button type="submit">
-              <Glyphicon glyph="search"/>
-            </Button>
-          </Navbar.Form>
-          <Nav pullRight>
-            <MenuArea />
-          </Nav>
+          <SearchArea tree={this.props.tree} handleSearchRes={this.props.processSearchRes}/>
+          <MenuArea visibleAreas={this.props.visibleAreas}/>
         </Navbar.Collapse>
-      </Navbar>        
+      </Navbar>      
     );
   }
-  }
+}
+
+SearchArea.PropTypes = {
+  // for MenuArea
+  visibleAreas: PropTypes.object.isRequired,
+  // for searchArea
+  tree: PropTypes.array.isRequired,
+  processSearchRes: PropTypes.func.isRequired,
+}

@@ -3,7 +3,7 @@ import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
 import Tree from './Tree';
-import {loadOrgUnits} from '../components/LoadOrgUnits';
+import {createMainTree} from '../components/LoadData';
 import {default as Spinner} from 'react-loader';
 // import Spinner from 'react-spinner';
 // import "react-spinner/react-spinner.css";
@@ -20,7 +20,7 @@ export default class BodyArea extends React.Component {
   }
 
   async componentDidMount() {
-    let tree = await loadOrgUnits();
+    let tree = await createMainTree();
     this.setState({
       tree: tree,
       isTreeReady: true,
@@ -52,7 +52,7 @@ export default class BodyArea extends React.Component {
         <Grid>
           <Row>
             <Col xs={6} md={4}>
-              {/* {this.state.isTreeReady ? this.treeReady() : this.treeLoading()}              */}
+              {this.state.isTreeReady ? this.treeReady() : this.treeLoading()}             
             </Col>
             <Col xs={6} md={4}>
               <div>

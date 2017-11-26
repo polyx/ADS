@@ -1,17 +1,21 @@
 import React from 'react';
-import NavDropdown from 'react-bootstrap/lib/NavDropdown';
-import NavItem from 'react-bootstrap/lib/NavItem';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-
+import {Nav, NavDropdown, NavItem, Glyphicon} from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 export default class MenuArea extends React.Component {
   render() {
     return(
-      <NavDropdown pullRight noCaret title={<Glyphicon glyph="menu-hamburger"/>}>
-      <NavItem>
-                      
-      </NavItem>
-     </NavDropdown>        
+      <Nav pullRight>
+        <NavDropdown pullRight noCaret id="dropDownMenu" title={<Glyphicon glyph="menu-hamburger"/>}>
+          <NavItem>
+            <p>Info</p>                      
+          </NavItem>
+      </NavDropdown>
+     </Nav>     
     );
   }
+}
+
+MenuArea.PropTypes = {
+  visibleAreas: PropTypes.object.isRequired,
 }
