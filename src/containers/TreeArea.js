@@ -13,9 +13,7 @@ export default class TreeArea extends React.Component {
     super(props);
 
     this.state = {
-      tree: props.tree,
-      treeView: '',
-      selectedOrgId: '',
+      tree: '',
       selectedBookkeping: [],
       // highlightedBookkeping: dataSource.map() => false
       // collapsedBookkeeping: dataSource.map(() => false),
@@ -26,12 +24,76 @@ export default class TreeArea extends React.Component {
   }
 
   async componentDidMount() {
-    let treeView = this.createTreeViewRecurs(this.state.tree, 1);
+    // let tmpIds = ['eIQbndfxQMb', 'jUb8gELQApl', 'fdc6uOvgoji', 'O6uvpzGd5pu', 'qhqAxPSTUXp'];
+    // let tree = this.createTreeRec(this.props.levelOne, this.props.allUnits, 1);
+    let tree = this.createTreeRec(this.props.levelOne, this.props.allUnits, 1);
+    
     this.setState({
-      treeView: treeView,
+      tree: tree,
     });
   }
 
+
+  getFullInfoSorted(nodesIdInf, allUnits){
+    // console.log(nodesIdInf);
+    let nodesFullInf = nodesIdInf.map((idNode)=>{return allUnits.find((fullNode)=>{return fullNode.id === idNode.id})});
+    
+
+    let compare = (a, b) => {
+      if (a.displayName > b.displayName) 
+        return 1;
+      if (b.displayName > a.displayName)
+        return -1;
+      return 0;
+    }
+    return nodesFullInf.sort(compare);
+  }
+
+
+  createTreeRec(nodesIdInf, allUnits, expLevels) {
+    const selectedBookkeping = this.state.selectedBookkeping;
+    let nodesFullInf = this.getFullInfoSorted(nodesIdInf, allUnits);
+
+    let makeNode = (node, levels) => {
+      const label = 
+      <span 
+        className="node"
+        onClick={this.handleClickLabel.bind(null, node.id)}>
+          {node.displayName}
+      </span>;      
+      return (
+        <TreeView
+          key={node.id}
+          nodeLabel={label}
+          defaultCollapsed={(levels > 0) ? false : true}          
+          onClick={this.handleClickArrow.bind(null, node.id)}
+          >
+            {this.createTreeRec(node.children, allUnits, levels-1)}
+        </TreeView>
+      );
+    };
+
+    let makeLeaf = (node) => {
+      return (
+        <div 
+          className='info'
+          key={node.id}
+          onClick={this.handleClickLabel.bind(null, node.id)}>
+            {node.displayName}
+        </div>
+      );
+    };    
+    
+    return (
+      <div>
+        {nodesFullInf.map((node) => {
+          return (node.children.length !== 0)  ? makeNode(node, expLevels) : makeLeaf(node);
+        })}
+        {this.setState({selectedBookkeping: selectedBookkeping})}
+      </div>
+    );
+  }
+    
 
   handleClickLabel(i) {
     console.log('handleClickLabel ' + i);
@@ -66,50 +128,6 @@ export default class TreeArea extends React.Component {
     return res;
   }
 
-  createTreeViewRecurs(tree, levels) {
-    const selectedBookkeping = this.state.selectedBookkeping;
-    const collapsedBookkeeping = this.state.collapsedBookkeeping;
-
-    let makeNode = (node, levels) => {
-      const label = 
-      <span 
-        className="node"
-        onClick={this.handleClickLabel.bind(null, node.id)}>
-          {node.displayName}
-      </span>;      
-      return (
-        <TreeView
-          key={node.id}
-          nodeLabel={label}
-          defaultCollapsed={(levels > 0) ? false : true}
-          
-          onClick={this.handleClickArrow.bind(null, node.id)}>
-            {this.createTreeViewRecurs(node.children, levels-1)}
-        </TreeView>
-      );
-    };
-
-    let makeLeaf = (node) => {
-        return (
-        <div 
-          className='info'
-          key={node.id}
-          onClick={this.handleClickLabel.bind(null, node.id)}>
-            {node.displayName}
-        </div>
-      );
-    };
-
-    return (
-      <div>
-        {tree.map((node) => {
-          return node.children ? makeNode(node, levels) : makeLeaf(node);
-        })}
-        {this.setState({selectedBookkeping: selectedBookkeping})}
-      </div>
-    );
-  }
-
   handleClickArrow(i) {
   }
 
@@ -119,14 +137,15 @@ export default class TreeArea extends React.Component {
   render() {
     return (
       <div>
-        {this.state.treeView}
+        {this.state.tree}
       </div>
     );
   }
 }
 
 TreeArea.PropTypes = {
-  tree: PropTypes.array,
+  allUnits: PropTypes.array,
+  levelOne: PropTypes.array,
   searchSet: PropTypes.array.isRequired,
   selectedOrgId: PropTypes.number,
   passNewSelectedOrgId: PropTypes.func.isRequired,

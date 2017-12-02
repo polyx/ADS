@@ -45,6 +45,6 @@ export default class SearchArea extends React.Component {
 }
 
 SearchArea.PropTypes = {
-  tree: PropTypes.array.isRequired,
+  allUnits: PropTypes.array.isRequired,
   handlNewSearchSet: PropTypes.func.isRequired,
 }

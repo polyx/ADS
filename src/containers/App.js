@@ -1,7 +1,7 @@
 import React from 'react';
 import {Grid, Row, Col} from 'react-bootstrap';
 import {getBaseUrl} from '../components/BaseUrl';
-import {loadOrgUnits} from '../components/LoadOrgUnits';
+import {loadOrgUnits, loadQuery} from '../components/LoadOrgUnits';
 import {default as Spinner} from 'react-loader';
 import HeaderArea from './HeaderArea';
 import TreeArea from './TreeArea';
@@ -17,7 +17,8 @@ export default class App extends React.Component {
     this.state = {
       isUrlReady: false,
       isTreeReady: false,
-      tree: '',
+      allUnits: '',
+      levelOneIds: '',
       selectedOrgId: '',
       searchSet: [],
       visibleAreas: {tree: true, info: true, map: true},
@@ -27,17 +28,17 @@ export default class App extends React.Component {
   async componentDidMount() {
     await getBaseUrl;
     this.setState({isUrlReady: true});
-    let tree = await loadOrgUnits();
+    let allUnits = await loadOrgUnits();
+    let levelOne = await loadQuery('organisationUnits.json?paging=false&level=1&fields=id');
     this.setState({
-      tree: tree,
+      allUnits: allUnits,
+      levelOne: levelOne,
       isTreeReady: true,
     });
   }
 
   handlNewSearchSet(list) {  
     this.setState({searchSet: list});
-    //console.log(this.state.searchRes);
-    //TODO: why the this.state.serchRes shows old data
   }
 
   handlNewSelectedOrgId(newId) {
@@ -48,7 +49,7 @@ export default class App extends React.Component {
   renderHeader() {
     return( 
       <HeaderArea 
-        tree={this.state.tree}
+        allUnits={this.state.allU}
         visibleAreas={this.state.visibleAreas}
         handlNewSearchSet={this.handlNewSearchSet.bind(this)}/>
     )
@@ -69,7 +70,8 @@ export default class App extends React.Component {
 
   renderMain() {
     let treeArea = <TreeArea 
-      tree={this.state.tree}
+      allUnits={this.state.allUnits}
+      levelOne={this.state.levelOne}
       selectedOrgId={this.state.selectedOrgId}
       searchSet={this.state.searchSet}
       passNewSelectedOrgId={this.handlNewSelectedOrgId.bind(this)}
@@ -89,10 +91,10 @@ export default class App extends React.Component {
               {this.state.visibleAreas.tree ? treeArea : null}
             </Col>
             <Col xs={9} md={5}>
-              {this.state.visibleAreas.tree ? infoArea : null}
+              {this.state.visibleAreas.info ? infoArea : null}
             </Col>
             <Col xs={6} md={5}>
-              {this.state.visibleAreas.tree ? mapArea : null}
+              {this.state.visibleAreas.map ? mapArea : null}
             </Col>
           </Row>
         </Grid> 
