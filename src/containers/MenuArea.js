@@ -18,4 +18,4 @@ export default class MenuArea extends React.Component {
 
 MenuArea.PropTypes = {
   visibleAreas: PropTypes.object.isRequired,
-}
+};

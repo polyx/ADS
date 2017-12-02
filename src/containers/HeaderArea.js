@@ -40,4 +40,4 @@ SearchArea.PropTypes = {
   // for searchArea
   tree: PropTypes.array.isRequired,
   processSearchRes: PropTypes.func.isRequired,
-}
+};

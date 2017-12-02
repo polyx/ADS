@@ -119,4 +119,4 @@ export default class TreeArea extends React.Component {
 TreeArea.PropTypes = {
   tree: PropTypes.array.isRequired,
   searchRes: PropTypes.array.isRequired,
-}
+};

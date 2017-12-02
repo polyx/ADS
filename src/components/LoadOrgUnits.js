@@ -6,7 +6,7 @@ export const loadOrgUnits = async () => {
   let tree = levelOne.organisationUnits;
   await fetchChilderenRecurs(tree);
   return tree;
-}
+};
 
 const loadQuery = (query) => {
   return new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ const loadQuery = (query) => {
       alert(err);
     });
   });
-}
+};
 
 const fetchChilderenRecurs = async (nodes) => {
   await Promise.all(nodes.map(async(node) => {
@@ -36,7 +36,7 @@ const fetchChilderenRecurs = async (nodes) => {
     if (children.length !== 0) {
       node.children = children;
       //TODO: uncomment this when deploying
-      //await fetchChilderenRecurs(node.children);
+      await fetchChilderenRecurs(node.children);
     }
   }));
 
@@ -46,6 +46,6 @@ const fetchChilderenRecurs = async (nodes) => {
     if (b.displayName > a.displayName)
       return -1;
     return 0;
-  }
+  };
   nodes.sort(compare);
-}
+};
