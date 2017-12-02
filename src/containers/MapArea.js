@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class InfoArea extends React.Component {
   render() {
@@ -6,4 +7,8 @@ export default class InfoArea extends React.Component {
       <p> GoogleMaps </p>
     );    
   }
+}
+
+InfoArea.PropTypes = {
+  tree: PropTypes.array.isRequired,
 }

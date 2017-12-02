@@ -1,4 +1,5 @@
 import React from 'react';
+// import {Panel} from 'react-bootstrap';
 import TreeView from 'react-treeview/lib/react-treeview';
 import "react-treeview/react-treeview.css";
 import "../css/treeview-local.css";
@@ -13,7 +14,7 @@ export default class TreeArea extends React.Component {
 
     this.state = {
       tree: props.tree,
-      treeObj: '',
+      treeView: '',
       selectedId: '',
       selectedBookkeping: [],
       // highlightedBookkeping: dataSource.map() => false
@@ -21,17 +22,34 @@ export default class TreeArea extends React.Component {
     };
     this.handleClickArrow = this.handleClickArrow.bind(this);
     this.handleClickLabel = this.handleClickLabel.bind(this);
-    this.handleSearchResTree = this.handleSearchResTree.bind(this);
     this.collapseAll = this.collapseAll.bind(this);
-    //this.handleSelectedNode = this.handleSelectedNode.bind(this);
   }
 
   async componentDidMount() {
-    //console.log(this.state.tree);
     let treeView = this.createTreeViewRecurs(this.state.tree, 1);
     this.setState({
       treeView: treeView,
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // if (this.areEqualSearchRes(this.props.searchRes, nextProps.searchRes)) {
+    //   return;
+    // }
+    console.log('TreeArea, new searchRes');
+    console.log(nextProps.searchRes);
+  }
+
+  areEqualSearchRes(list1, list2) {
+    if (list1.length !== list2.length) return false;
+    let res = true;
+    for (const id in list1) {
+      if (!list2.includes(id)){
+        res = false;
+        break;
+      }
+    }
+    return res;
   }
 
   createTreeViewRecurs(tree, levels) {
@@ -46,7 +64,7 @@ export default class TreeArea extends React.Component {
           {node.displayName}
       </span>;      
       return (
-        <TreeView 
+        <TreeView
           key={node.id}
           nodeLabel={label}
           defaultCollapsed={(levels > 0) ? false : true}
@@ -58,8 +76,7 @@ export default class TreeArea extends React.Component {
     };
 
     let makeLeaf = (node) => {
-      //selectedBookkeping[node.id]=this.handleGotSelected.bind(this);
-      return (
+        return (
         <div 
           className='info'
           key={node.id}
@@ -77,10 +94,6 @@ export default class TreeArea extends React.Component {
         {this.setState({selectedBookkeping: selectedBookkeping})}
       </div>
     );
-  }
-
-  handleSearchResTree(list) {
-    console.log("handleGotSelected");
   }
 
   handleClickArrow(i) {
@@ -105,4 +118,5 @@ export default class TreeArea extends React.Component {
 
 TreeArea.PropTypes = {
   tree: PropTypes.array.isRequired,
+  searchRes: PropTypes.array.isRequired,
 }

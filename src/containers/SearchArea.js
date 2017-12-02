@@ -19,7 +19,7 @@ export default class SearchArea extends React.Component {
   }
 
   handleSubmitted(val) {
-    this.props.handleSearchRes(val);
+    this.props.handleSearchRes([1]);
   }
 
   render() {

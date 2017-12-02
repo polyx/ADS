@@ -18,7 +18,8 @@ export default class App extends React.Component {
       isUrlReady: false,
       isTreeReady: false,
       tree: '',
-      searchList: '',
+      selectedOrgId: '',
+      searchRes: [],
       visibleAreas: {tree: true, info: true, map: true},
     };
   }
@@ -33,36 +34,11 @@ export default class App extends React.Component {
     });
   }
 
-  handleSearchRes(list) {
+  handleSearchRes(list) {    
     console.log(list);
-    //  this.refs.child.handleSearchResTree(list);
-    this.chldTree.handleSearchResTree(list);
-  }
-  
-
-  renderMain() {
-    let treeArea = <TreeArea 
-      tree={this.state.tree}
-      ref={(input) => {this.chldTree = input}}/>;
-    let infoArea = <InfoSheetArea tree={this.state.tree}/>;
-    let mapArea = <MapArea tree={this.state.tree}/>;
-    return (
-      <div>
-      <Grid>
-        <Row>
-          <Col xs={3} md={2}>
-            {this.state.visibleAreas.tree ? treeArea : null}
-          </Col>
-          <Col xs={9} md={5}>
-            {this.state.visibleAreas.tree ? infoArea : null}
-          </Col>
-          <Col xs={6} md={5}>
-            {this.state.visibleAreas.tree ? mapArea : null}
-          </Col>
-        </Row>
-      </Grid> 
-      </div> 
-    );
+    console.log(this.state.searchRes);
+    this.setState({searchRes: ['a']});
+    console.log(this.state.searchRes);
   }
 
   renderHeader() {
@@ -83,6 +59,32 @@ export default class App extends React.Component {
         <div>
           <center> Downloading data from the server...</center>
         </div>
+      </div>
+    );
+  }
+
+  renderMain() {
+    let treeArea = <TreeArea 
+      tree={this.state.tree}
+      searchRes={this.props.searchRes}
+      />;
+    let infoArea = <InfoSheetArea tree={this.state.tree} />;
+    let mapArea = <MapArea tree={this.state.tree}/>;
+    return (
+      <div>
+        <Grid>
+          <Row>
+            <Col xs={3} md={2}>
+              {this.state.visibleAreas.tree ? treeArea : null}
+            </Col>
+            <Col xs={9} md={5}>
+              {this.state.visibleAreas.tree ? infoArea : null}
+            </Col>
+            <Col xs={6} md={5}>
+              {this.state.visibleAreas.tree ? mapArea : null}
+            </Col>
+          </Row>
+        </Grid> 
       </div>
     );
   }
