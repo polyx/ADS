@@ -19,7 +19,9 @@ export default class SearchArea extends React.Component {
   }
 
   handleSubmitted(val) {
-    this.props.handleSearchRes([1]);
+    // only unique ids in searchSet 
+    //this.props.handleSearchRes(val);
+    this.props.handlNewSearchSet([1, 2, 3]);
   }
 
   render() {
@@ -44,5 +46,5 @@ export default class SearchArea extends React.Component {
 
 SearchArea.PropTypes = {
   tree: PropTypes.array.isRequired,
-  handleSearchRes: PropTypes.func.isRequired,
+  handlNewSearchSet: PropTypes.func.isRequired,
 }

@@ -19,7 +19,7 @@ export default class App extends React.Component {
       isTreeReady: false,
       tree: '',
       selectedOrgId: '',
-      searchRes: [],
+      searchSet: [],
       visibleAreas: {tree: true, info: true, map: true},
     };
   }
@@ -34,11 +34,15 @@ export default class App extends React.Component {
     });
   }
 
-  handleSearchRes(list) {    
-    console.log(list);
-    console.log(this.state.searchRes);
-    this.setState({searchRes: ['a']});
-    console.log(this.state.searchRes);
+  handlNewSearchSet(list) {  
+    this.setState({searchSet: list});
+    //console.log(this.state.searchRes);
+    //TODO: why the this.state.serchRes shows old data
+  }
+
+  handlNewSelectedOrgId(newId) {
+    console.log('app new selecId ' + newId);
+    this.setState({selectedOrgId: newId})
   }
 
   renderHeader() {
@@ -46,7 +50,7 @@ export default class App extends React.Component {
       <HeaderArea 
         tree={this.state.tree}
         visibleAreas={this.state.visibleAreas}
-        processSearchRes={this.handleSearchRes.bind(this)}/>
+        handlNewSearchSet={this.handlNewSearchSet.bind(this)}/>
     )
   }
 
@@ -66,10 +70,17 @@ export default class App extends React.Component {
   renderMain() {
     let treeArea = <TreeArea 
       tree={this.state.tree}
-      searchRes={this.props.searchRes}
+      selectedOrgId={this.state.selectedOrgId}
+      searchSet={this.state.searchSet}
+      passNewSelectedOrgId={this.handlNewSelectedOrgId.bind(this)}
       />;
-    let infoArea = <InfoSheetArea tree={this.state.tree} />;
-    let mapArea = <MapArea tree={this.state.tree}/>;
+    let infoArea = <InfoSheetArea 
+      selectedOrgId={this.state.selectedOrgId}
+      />;
+    let mapArea = <MapArea
+      selectedOrgId={this.state.selectedOrgId}
+      searchSet={this.state.searchSet}
+      />;
     return (
       <div>
         <Grid>

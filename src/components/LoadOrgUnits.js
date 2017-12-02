@@ -8,7 +8,7 @@ export const loadOrgUnits = async () => {
   return tree;
 }
 
-const loadQuery = (query) => {
+export const loadQuery = (query) => {
   return new Promise((resolve, reject) => {
     fetch(`${baseUrl}/${query}`, {
       credentials: "include"
@@ -36,7 +36,7 @@ const fetchChilderenRecurs = async (nodes) => {
     if (children.length !== 0) {
       node.children = children;
       //TODO: uncomment this when deploying
-      //await fetchChilderenRecurs(node.children);
+      await fetchChilderenRecurs(node.children);
     }
   }));
 

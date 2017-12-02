@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class InfoArea extends React.Component {
+export default class MapArea extends React.Component {
+
+
+
   render() {
     return(
       <p> GoogleMaps </p>
@@ -9,6 +12,7 @@ export default class InfoArea extends React.Component {
   }
 }
 
-InfoArea.PropTypes = {
-  tree: PropTypes.array.isRequired,
+MapArea.PropTypes = {
+  searchSet: PropTypes.array,
+  selectedOrgId: PropTypes.number,
 }

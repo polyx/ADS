@@ -15,7 +15,7 @@ export default class TreeArea extends React.Component {
     this.state = {
       tree: props.tree,
       treeView: '',
-      selectedId: '',
+      selectedOrgId: '',
       selectedBookkeping: [],
       // highlightedBookkeping: dataSource.map() => false
       // collapsedBookkeeping: dataSource.map(() => false),
@@ -32,19 +32,33 @@ export default class TreeArea extends React.Component {
     });
   }
 
+
+  handleClickLabel(i) {
+    console.log('handleClickLabel ' + i);
+    this.setState({selectedOrgId: i}, () => {this.props.passNewSelectedOrgId(i)});
+  } 
+
+
   componentWillReceiveProps(nextProps) {
-    // if (this.areEqualSearchRes(this.props.searchRes, nextProps.searchRes)) {
-    //   return;
-    // }
-    console.log('TreeArea, new searchRes');
-    console.log(nextProps.searchRes);
+    if (nextProps.searchSet.length !== 0 && !this.areEqualSearchSets(this.props.searchSet, nextProps.searchSet)) {
+      console.log(nextProps.searchSet);
+      console.log('handle new searchSet');
+    }
+    if (nextProps.selectedOrgId !== null && this.state.selectedOrgId !== nextProps.selectedOrgId ) {
+      // console.log(this.state.selectedOrgId);
+      // console.log(nextProps.selectedOrgId);
+      console.log('handle old selectedOrgId ' + this.state.selectedOrgId);
+      console.log('handle new selectedOrgId ' + nextProps.selectedOrgId);
+      this.setState({selectedOrgId: nextProps.selectedOrgId});
+    }
   }
 
-  areEqualSearchRes(list1, list2) {
+  areEqualSearchSets(list1, list2) {
+    // only unique ids in this lists (they are sets)
     if (list1.length !== list2.length) return false;
     let res = true;
-    for (const id in list1) {
-      if (!list2.includes(id)){
+    for (var i = 0; i < list1.length; i++) {
+      if (!list2.includes(list1[i])){
         res = false;
         break;
       }
@@ -99,11 +113,6 @@ export default class TreeArea extends React.Component {
   handleClickArrow(i) {
   }
 
-  handleClickLabel(i) {
-    console.log(i);
-  } 
-  
-
   collapseAll() {
   }
 
@@ -117,6 +126,8 @@ export default class TreeArea extends React.Component {
 }
 
 TreeArea.PropTypes = {
-  tree: PropTypes.array.isRequired,
-  searchRes: PropTypes.array.isRequired,
+  tree: PropTypes.array,
+  searchSet: PropTypes.array.isRequired,
+  selectedOrgId: PropTypes.number,
+  passNewSelectedOrgId: PropTypes.func.isRequired,
 }
