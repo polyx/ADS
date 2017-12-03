@@ -69,6 +69,14 @@ export default class App extends React.Component {
   }
 
   renderMain() {
+    let temp_data = {
+      children: [],
+      coordinates: [-12.9487,9.0131],
+      displayName: "Ahamadyya Mission Cl",
+      featureType: "POINT",
+      id: "plnHVbJR6p4"
+    };
+
     let treeArea = <TreeArea 
       allUnits={this.state.allUnits}
       levelOne={this.state.levelOne}
@@ -79,10 +87,7 @@ export default class App extends React.Component {
     let infoArea = <InfoSheetArea 
       selectedOrgId={this.state.selectedOrgId}
       />;
-    let mapArea = <MapArea
-      selectedOrgId={this.state.selectedOrgId}
-      searchSet={this.state.searchSet}
-      />;
+    let mapArea = <MapArea selectedOrgId={temp_data} searchSet={this.state.searchSet} />;
     return (
       <div>
         <Grid>
