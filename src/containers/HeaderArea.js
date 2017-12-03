@@ -26,7 +26,7 @@ export default class HeaderArea extends React.Component {
         <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <SearchArea tree={this.props.tree} handleSearchRes={this.props.processSearchRes}/>
+          <SearchArea allUnits={this.props.allUnits} handlNewSearchSet={this.props.handlNewSearchSet}/>
           <MenuArea visibleAreas={this.props.visibleAreas}/>
         </Navbar.Collapse>
       </Navbar>      
@@ -38,6 +38,6 @@ SearchArea.PropTypes = {
   // for MenuArea
   visibleAreas: PropTypes.object.isRequired,
   // for searchArea
-  tree: PropTypes.array.isRequired,
-  processSearchRes: PropTypes.func.isRequired,
-};
+  allUnits: PropTypes.array.isRequired,
+  handlNewSearchSet: PropTypes.func.isRequired,
+}
