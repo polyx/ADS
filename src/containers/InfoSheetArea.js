@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tabs, Tab} from 'react-bootstrap';
+import {Tabs, Tab, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import {loadQuery} from '../components/LoadOrgUnits';
 
 export default class InfoSheetArea extends React.Component {
@@ -35,20 +35,30 @@ export default class InfoSheetArea extends React.Component {
     } else {
       console.log(this.state.tabsObj[this.state.activeTabKey].id);      
     }
+    console.log(id);
     let orgUnitObj = await loadQuery('organisationUnits/' + id + '.json');
+    console.log(orgUnitObj);
     let tabsObj = this.state.tabsObj;
     tabsObj[this.state.activeTabKey] = orgUnitObj;
-    console.log(orgUnitObj);
     this.setState({
       tabsObj: tabsObj
     });
   }
 
-  renderTab1() {
-    return(
-      <div>
-        {/* {this.state.tabsObj[this.state.activeTabKey]} */}
-      </div>
+  renderForm() {
+    let obj = this.state.tabsObj[this.state.activeTabKey];
+    return( 
+      <Form>
+        <FormGroup bsSize="sm">
+          <ControlLabel>Name</ControlLabel>
+          <FormControl
+            readOnly            
+            type="text"
+            // value={this.state.tabsObj[this.state.activeTabKey].name}
+            placeholder={(obj !== undefined) ? obj.name : null}
+          />
+        </FormGroup>
+      </Form>
     );
   }
 
@@ -56,9 +66,11 @@ export default class InfoSheetArea extends React.Component {
     return(
       <div>
         <Tabs activeKey={this.state.key} id="controlled-tab">
-          <Tab eventKey={1} title="tab1"> {this.renderTab1()} </Tab>
-          <Tab eventKey={2} title="tab2"> OrgUnit2 </Tab>
-          <Tab eventKey={3} title="tab3"> OrgUnit3 </Tab>
+          <Tab eventKey={1} title={this.state.tabsObj[1] ? this.state.tabsObj[1].name : 'Tab1'}> {this.renderForm()} </Tab>
+          <Tab eventKey={2} title={this.state.tabsObj[2] ? this.state.tabsObj[2].name : 'Tab2'}> {this.renderForm()} </Tab>
+          <Tab eventKey={3} title={this.state.tabsObj[3] ? this.state.tabsObj[3].name : 'Tab3'}> {this.renderForm()} </Tab>
+          {/* <Tab eventKey={2} title="tab2"> OrgUnit2 </Tab>
+          <Tab eventKey={3} title="tab3"> OrgUnit3 </Tab> */}
         </Tabs>
       </div>
     );    
@@ -66,6 +78,5 @@ export default class InfoSheetArea extends React.Component {
 }
 
 InfoSheetArea.PropTypes = {
-  // tree: PropTypes.array.isRequired,
   selectedOrgId: PropTypes.number,
 }

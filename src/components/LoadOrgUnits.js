@@ -18,7 +18,7 @@ export const loadQuery = (query) => {
       return response.json();
     })
     .then(jsonData => {
-      resolve(jsonData.organisationUnits);
+      resolve(jsonData);
     })
     .catch(err => {
       console.log(err);

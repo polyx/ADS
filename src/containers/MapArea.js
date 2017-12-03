@@ -14,5 +14,5 @@ export default class MapArea extends React.Component {
 
 MapArea.PropTypes = {
   searchSet: PropTypes.array,
-  selectedOrgId: PropTypes.number,
+  selectedOrgId: PropTypes.object,
 }

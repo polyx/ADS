@@ -16,7 +16,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       isUrlReady: false,
-      isTreeReady: false,
+      isAllUnitsReady: false,
       allUnits: '',
       levelOneIds: '',
       selectedOrgId: '',
@@ -31,9 +31,9 @@ export default class App extends React.Component {
     let allUnits = await loadOrgUnits();
     let levelOne = await loadQuery('organisationUnits.json?paging=false&level=1&fields=id');
     this.setState({
-      allUnits: allUnits,
-      levelOne: levelOne,
-      isTreeReady: true,
+      allUnits: allUnits.organisationUnits,
+      levelOne: levelOne.organisationUnits,
+      isAllUnitsReady: true,
     });
   }
 
@@ -59,7 +59,7 @@ export default class App extends React.Component {
     return(
       <div>
         <div>
-          <Spinner loaded={this.state.isTreeReady} top="20%" left="50%"/>
+          <Spinner loaded={this.state.isAllUnitsReady} top="20%" left="50%"/>
         </div>
         <div>
           <center> Downloading data from the server...</center>
@@ -106,7 +106,7 @@ export default class App extends React.Component {
     return(
       <div>
         {this.state.isUrlReady ? this.renderHeader() : null}
-        {this.state.isTreeReady ? this.renderMain() : this.renderLoading()}
+        {this.state.isAllUnitsReady ? this.renderMain() : this.renderLoading()}
       </div> 
     );
   }
