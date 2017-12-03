@@ -54,18 +54,27 @@ export default class MapArea extends React.Component {
         let ico = L.icon({
             iconUrl: '/marker.png',
             iconSize: [25, 41],
-            iconAnchor: [25, 21],
+            iconAnchor: [12, 41],
             popupAnchor: [-3, -76]
         });
 
-        L.marker(coords, {icon: ico}).addTo(map);
-        map.setView(coords, 15);
+        //
+        if (type === "POLYGON"){
+            let polygon = L.polygon(coords).addTo(map)
+            let bounds = polygon.getBounds();
+            map.fitBounds(bounds);
+
+        }else {
+            L.marker(coords, {icon: ico}).addTo(map);
+            map.setView(coords, 15);
+        }
+
     }
 
 
     render() {
         let mapStyle = {
-            height: '300px'
+            height: '600px'
         };
 
         return (
