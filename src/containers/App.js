@@ -16,7 +16,7 @@ import {
   Route,
 } from 'react-router-dom';
 
-export default class App extends React.Component {
+class Main extends React.Component {
 
   constructor() {
     super();
@@ -115,10 +115,20 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Router>
         <div>
           {this.state.isUrlReady ? this.renderHeader() : null}
           <div>{this.state.isAllUnitsReady ? this.renderMain() : this.renderLoading()}</div>
+        </div>
+    );
+  }
+}
+
+export default class App extends React.Component{
+  render() {
+    return (
+      <Router>
+        <div>
+          <Route exact path="/" component={Main} />
           <Route path="/admin" component={AdminArea}/>
         </div>
       </Router>
