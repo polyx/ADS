@@ -5,8 +5,8 @@ import d2map from 'dhis2-gis-api'
 
 
 export default class InfoArea extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {}
     }
 
