@@ -6,6 +6,8 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "bower": "^1.8.2",
+    "dhis2-gis-api": "^27.0.15",
+    "leaflet": "^1.2.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.2.0",

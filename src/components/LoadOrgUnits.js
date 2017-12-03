@@ -10,6 +10,7 @@ export const loadOrgUnits = async () => {
 
 const loadQuery = (query) => {
   return new Promise((resolve, reject) => {
+    console.log(`${baseUrl}/${query}`);
     fetch(`${baseUrl}/${query}`, {
       credentials: "include"
     })
@@ -36,7 +37,7 @@ const fetchChilderenRecurs = async (nodes) => {
     if (children.length !== 0) {
       node.children = children;
       //TODO: uncomment this when deploying
-      await fetchChilderenRecurs(node.children);
+      // await fetchChilderenRecurs(node.children);
     }
   }));
 
