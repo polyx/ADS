@@ -4,7 +4,7 @@ import {getBaseUrl} from '../components/BaseUrl';
 import {loadOrgUnits, loadQuery} from '../components/LoadOrgUnits';
 import {default as Spinner} from 'react-loader';
 import HeaderArea from './HeaderArea';
-import TreeArea from './TreeArea';
+import SearchArea from './SearchArea';
 import InfoSheetArea from './InfoSheetArea';
 import MapArea from './MapArea';
 import AdminArea from './AdminArea'
@@ -44,8 +44,9 @@ class Main extends React.Component {
   }
 
   handlNewSelectedOrgId(newId) {
+    //console.log("handlNewSelectedOrgId " + newId);
     let newSelectedObj = this.state.allUnits.find((org) => {return org.id === newId});
-    this.setState({selectedOrg: newSelectedObj})
+    this.setState({selectedOrg: newSelectedObj});
   }
 
   renderHeader() {
@@ -71,15 +72,16 @@ class Main extends React.Component {
   }
 
   renderMain() {
-    let treeArea = <TreeArea
+    let searchArea = <SearchArea
       allUnits={this.state.allUnits}
       levelOne={this.state.levelOne}
       selectedOrg={this.state.selectedOrg}
       searchSet={this.state.searchSet}
-      passNewSelectedOrgId={this.handlNewSelectedOrgId.bind(this)}
+      handlNewSelectedOrgId={this.handlNewSelectedOrgId.bind(this)}
     />;
     let infoArea = <InfoSheetArea
       selectedOrg={this.state.selectedOrg}
+      passNewSelectedOrgId={this.handlNewSelectedOrgId.bind(this)}
     />;
     let mapArea = <MapArea
       selectedOrg={this.state.selectedOrg}
@@ -91,7 +93,7 @@ class Main extends React.Component {
         <Grid>
           <Row>
             <Col xs={3} md={2}>
-              {this.state.visibleAreas.tree ? treeArea : null}
+              {this.state.visibleAreas.tree ? searchArea : null}
             </Col>
             <Col xs={9} md={5}>
               {this.state.visibleAreas.info ? infoArea : null}

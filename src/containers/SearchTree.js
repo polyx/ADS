@@ -1,12 +1,11 @@
 import React from 'react';
-// import {Panel} from 'react-bootstrap';
 import TreeView from 'react-treeview/lib/react-treeview';
 import "react-treeview/react-treeview.css";
 import "../css/treeview-local.css";
 import PropTypes from 'prop-types';
 
 
-export default class TreeArea extends React.Component {
+export default class SearchTree extends React.Component {
   // selected, highlighted
   
   constructor(props) {
@@ -142,7 +141,7 @@ export default class TreeArea extends React.Component {
   }
 }
 
-TreeArea.propTypes = {
+SearchTree.propTypes = {
   allUnits: PropTypes.array.isRequired,
   levelOne: PropTypes.array.isRequired,
   searchSet: PropTypes.array.isRequired,

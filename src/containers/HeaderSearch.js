@@ -1,11 +1,26 @@
 import React from 'react';
 import {FormGroup, Navbar, FormControl, Button, Glyphicon} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import Fuse from 'fuse.js';
 
-export default class HeaderSearchArea extends React.Component {
+export default class HeaderSearch extends React.Component {
 
   constructor() {
     super();
+
+    let fuseOptions = {
+      shouldSort: true,
+      threshold: 0.2,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: ["name",]};
+
+    this.state = {
+      fuseOptions: fuseOptions,
+    }
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmitted = this.handleSubmitted.bind(this);
   }
@@ -18,10 +33,10 @@ export default class HeaderSearchArea extends React.Component {
     }
   }
 
-  handleSubmitted(val) {
-    // only unique ids in searchSet 
-    //this.props.handleSearchRes(val);
-    this.props.handlNewSearchSet([1, 2, 3]);
+  handleSubmitted(id) {
+    let fuse = new Fuse(this.props.allUnits, this.state.fuseOptions);
+    let result = fuse.search(id);
+    this.props.handlNewSearchSet(result.slice(0,50));
   }
 
   render() {
@@ -35,16 +50,16 @@ export default class HeaderSearchArea extends React.Component {
               onKeyPress={this.handleChange}
                 />
           </FormGroup>
-          <Button type="submit" >
+          {/* <Button type="submit" >
             <Glyphicon glyph="search"/>
-          </Button>
+          </Button> */}
         </Navbar.Form>          
       </div>
     );
   }
 }
 
-HeaderSearchArea.propTypes = {
+HeaderSearch.propTypes = {
   allUnits: PropTypes.array.isRequired,
   handlNewSearchSet: PropTypes.func.isRequired,
 }

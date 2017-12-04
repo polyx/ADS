@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import L from "leaflet";
-import d2map from "dhis2-gis-api";
+import React from 'react';
+import PropTypes from 'prop-types';
+import L from 'leaflet'
+import d2map from 'dhis2-gis-api'
 
 
 export default class MapArea extends React.Component {
