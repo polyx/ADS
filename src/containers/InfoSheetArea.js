@@ -8,8 +8,7 @@ export default class InfoSheetArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTabKey: 1,          // 0 is for the search tab, 
-      noSrchTabKey: 1,
+      activeTabKey: 0,
       activePanelKey: 0,
       tabsObj: [],
     }
@@ -19,16 +18,11 @@ export default class InfoSheetArea extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     if (nextProps.selectedOrg !== null) {
-      if ((this.state.tabsObj[this.state.noSrchTabKey] === undefined) ||
-      (this.state.tabsObj[this.state.noSrchTabKey].id !== nextProps.selectedOrg.id)) {
+      if ((this.state.tabsObj[this.state.activeTabKey] === undefined) ||
+      (this.state.tabsObj[this.state.activeTabKey].id !== nextProps.selectedOrg.id)) {
         this.handleNewSelectedOrg(nextProps.selectedOrg);
       } 
-    }
-
-    if (nextProps.searchSet !== this.props.searchSet) {
-      this.handleNewSearchSet(nextProps.searchSet);
     }
   }
 
@@ -36,17 +30,13 @@ export default class InfoSheetArea extends React.Component {
   async handleNewSelectedOrg(org) {
     let orgUnitObj = await loadQuery('organisationUnits/' + org.id + '.json');
     let tabsObj = this.state.tabsObj;
-    tabsObj[this.state.noSrchTabKey] = orgUnitObj;
+    tabsObj[this.state.activeTabKey] = orgUnitObj;
     this.setState({
       tabsObj: tabsObj
     });
+    console.log(this.state.tabsObj);
   }
 
-
-  handleNewSearchSet(newSet) {
-    this.setState({activeTabKey: 0});
-    
-  }
 
   handlePanelSelect(panelKey) {
 
@@ -116,27 +106,10 @@ export default class InfoSheetArea extends React.Component {
     );
   }
 
-  renderSearch() {
-    //let styleItem = {height:'30px', padding: '5px'};
-    return(
-      // <ListGroup >
-      //   {this.props.searchSet.map((org) => {
-      //     return <ListGroupItem key={org.id} onClick={()=>{console.log(org.id)}} style={styleItem}>{org.name}</ListGroupItem>
-      //   })}
-      // </ListGroup>    
-      <ol >
-      {this.props.searchSet.map((org) => {
-        return <li key={org.id} onClick={()=>{console.log(org.id)}} style={{cursor: 'pointer'}}>{org.name}</li>
-      })}
-    </ol>      
-    );
-  }
+
 
   handleTabSelect(tabKey) {
     this.setState({activeTabKey: tabKey});
-    if (tabKey !== 0) {
-      this.setState({noSrchTabKey: tabKey});
-    } 
   }
 
   render() {
@@ -144,10 +117,9 @@ export default class InfoSheetArea extends React.Component {
     return(
       <div>
         <Tabs activeKey={this.state.activeTabKey} onSelect={this.handleTabSelect} id="controlled-tab" style={styleTab}>
-          <Tab eventKey={0} title="Search"> {this.renderSearch()} </Tab>
-          <Tab eventKey={1} title={this.state.tabsObj[1] ? this.state.tabsObj[1].name : 'Tab1'}> {this.renderInfo(1)} </Tab>
-          <Tab eventKey={2} title={this.state.tabsObj[2] ? this.state.tabsObj[2].name : 'Tab2'}> {this.renderInfo(2)} </Tab>
-          <Tab eventKey={3} title={this.state.tabsObj[3] ? this.state.tabsObj[3].name : 'Tab3'}> {this.renderInfo(3)} </Tab>          
+          <Tab eventKey={0} title={this.state.tabsObj[0] ? this.state.tabsObj[0].name : 'Tab1'}> {this.renderInfo(0)} </Tab>
+          <Tab eventKey={1} title={this.state.tabsObj[1] ? this.state.tabsObj[1].name : 'Tab2'}> {this.renderInfo(1)} </Tab>
+          <Tab eventKey={2} title={this.state.tabsObj[2] ? this.state.tabsObj[2].name : 'Tab3'}> {this.renderInfo(2)} </Tab>          
         </Tabs>
         
       </div>
@@ -156,7 +128,5 @@ export default class InfoSheetArea extends React.Component {
 }
 
 InfoSheetArea.propTypes = {
-  allUnits: PropTypes.array,
-  searchSet: PropTypes.array,
   selectedOrg: PropTypes.object,
 }

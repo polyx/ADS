@@ -3,7 +3,7 @@ import {FormGroup, Navbar, FormControl, Button, Glyphicon} from 'react-bootstrap
 import PropTypes from 'prop-types';
 import Fuse from 'fuse.js';
 
-export default class HeaderSearchArea extends React.Component {
+export default class HeaderSearch extends React.Component {
 
   constructor() {
     super();
@@ -36,7 +36,7 @@ export default class HeaderSearchArea extends React.Component {
   handleSubmitted(id) {
     let fuse = new Fuse(this.props.allUnits, this.state.fuseOptions);
     let result = fuse.search(id);
-    this.props.handlNewSearchSet(result.slice(0,20));
+    this.props.handlNewSearchSet(result.slice(0,50));
   }
 
   render() {
@@ -59,7 +59,7 @@ export default class HeaderSearchArea extends React.Component {
   }
 }
 
-HeaderSearchArea.propTypes = {
+HeaderSearch.propTypes = {
   allUnits: PropTypes.array.isRequired,
   handlNewSearchSet: PropTypes.func.isRequired,
 }
