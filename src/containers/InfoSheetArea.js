@@ -15,22 +15,22 @@ export default class InfoSheetArea extends React.Component {
     }
     this.handleTabSelect = this.handleTabSelect.bind(this);
     this.handlePanelSelect = this.handlePanelSelect.bind(this);
-    this.handleNewSelectedOrgId = this.handleNewSelectedOrgId.bind(this);
+    this.handleNewSelectedOrg = this.handleNewSelectedOrg.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('info ' + nextProps.selectedOrgId);
+    //console.log('info ' + nextProps.selectedOrg);
     if ((this.state.tabsObj[this.state.noSrchTabKey] === undefined) ||
-        (this.state.tabsObj[this.state.noSrchTabKey].id !== nextProps.selectedOrgId)) {
-      this.handleNewSelectedOrgId(nextProps.selectedOrgId);
+        (this.state.tabsObj[this.state.noSrchTabKey].id !== nextProps.selectedOrg.id)) {
+      this.handleNewSelectedOrg(nextProps.selectedOrg);
     } 
-
   }
 
 
-  async handleNewSelectedOrgId(id) {
-    let orgUnitObj = await loadQuery('organisationUnits/' + id + '.json');
-    console.log(orgUnitObj);
+  async handleNewSelectedOrg(org) {
+    //console.log(org);
+    let orgUnitObj = await loadQuery('organisationUnits/' + org.id + '.json');
+    //console.log(orgUnitObj);
     let tabsObj = this.state.tabsObj;
     tabsObj[this.state.noSrchTabKey] = orgUnitObj;
     this.setState({
@@ -48,7 +48,7 @@ export default class InfoSheetArea extends React.Component {
 
     return (
       <PanelGroup style={{fontSize:'1em'}} activeKey={this.state.activePanelKey} onSelect={this.handlePanelSelect}>
-        <Panel collapsible header="Basic Information" eventKey="1">{this.renderPanelBasic(obj)}</Panel>
+        <Panel collapsible defaultExpanded header="Basic Information" eventKey="1">{this.renderPanelBasic(obj)}</Panel>
         <Panel collapsible header="Groups" eventKey="2">{this.renderPanelGroups(obj)}</Panel>
         <Panel collapsible header="Data Sets" eventKey="3">{this.renderPanelDataSets(obj)}</Panel>
         <Panel collapsible header="Users" eventKey="4">{this.renderPanelUsers(obj)}</Panel>
@@ -136,5 +136,5 @@ export default class InfoSheetArea extends React.Component {
 }
 
 InfoSheetArea.PropTypes = {
-  selectedOrgId: PropTypes.number,
+  // selectedOrg: PropTypes.o,
 }

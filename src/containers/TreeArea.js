@@ -15,6 +15,7 @@ export default class TreeArea extends React.Component {
     this.state = {
       tree: '',
       selectedBookkeping: [],
+      selectedOrgId: "",
       // highlightedBookkeping: dataSource.map() => false
       // collapsedBookkeeping: dataSource.map(() => false),
     };
@@ -40,9 +41,9 @@ export default class TreeArea extends React.Component {
     
 
     let compare = (a, b) => {
-      if (a.displayName > b.displayName) 
+      if (a.name > b.name) 
         return 1;
-      if (b.displayName > a.displayName)
+      if (b.name > a.name)
         return -1;
       return 0;
     }
@@ -59,7 +60,7 @@ export default class TreeArea extends React.Component {
       <span 
         className="node"
         onClick={this.handleClickLabel.bind(null, node.id)}>
-          {node.displayName}
+          {node.name}
       </span>;      
       return (
         <TreeView
@@ -79,7 +80,7 @@ export default class TreeArea extends React.Component {
           className='info'
           key={node.id}
           onClick={this.handleClickLabel.bind(null, node.id)}>
-            {node.displayName}
+            {node.name}
         </div>
       );
     };    
@@ -106,12 +107,10 @@ export default class TreeArea extends React.Component {
       console.log(nextProps.searchSet);
       console.log('handle new searchSet');
     }
-    if (nextProps.selectedOrgId !== null && this.state.selectedOrgId !== nextProps.selectedOrgId ) {
-      // console.log(this.state.selectedOrgId);
-      // console.log(nextProps.selectedOrgId);
-      console.log('handle old selectedOrgId ' + this.state.selectedOrgId);
-      console.log('handle new selectedOrgId ' + nextProps.selectedOrgId);
-      this.setState({selectedOrgId: nextProps.selectedOrgId});
+    if (nextProps.selectedOrg !== null && this.state.selectedOrgId !== nextProps.selectedOrg.id ) {
+      console.log('componentWillReceiveProps old selectedOrgId ' + this.state.selectedOrgId);
+      console.log('componentWillReceiveProps new selectedOrgId ' + nextProps.selectedOrg.id);
+      this.setState({selectedOrgId: nextProps.selectedOrg.id});
     }
   }
 

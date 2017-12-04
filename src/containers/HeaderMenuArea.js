@@ -3,7 +3,7 @@ import {Nav, NavDropdown, NavItem, Glyphicon} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 
-export default class MenuArea extends React.Component {
+export default class HeaderMenuArea extends React.Component {
   render() {
     return(
       <Nav pullRight>
@@ -18,6 +18,6 @@ export default class MenuArea extends React.Component {
   }
 }
 
-MenuArea.PropTypes = {
+HeaderMenuArea.PropTypes = {
   visibleAreas: PropTypes.object.isRequired,
 };

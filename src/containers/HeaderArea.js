@@ -1,8 +1,8 @@
 import React from 'react';
 import {Navbar} from 'react-bootstrap';
 import {baseUrl} from '../components/BaseUrl';
-import MenuArea from './MenuArea';
-import SearchArea from './SearchArea';
+import HeaderMenuArea from './HeaderMenuArea';
+import HeaderSearchArea from './HeaderSearchArea';
 import PropTypes from 'prop-types';
 
 export default class HeaderArea extends React.Component {
@@ -26,15 +26,15 @@ export default class HeaderArea extends React.Component {
         <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <SearchArea allUnits={this.props.allUnits} handlNewSearchSet={this.props.handlNewSearchSet}/>
-          <MenuArea visibleAreas={this.props.visibleAreas}/>
+          <HeaderSearchArea allUnits={this.props.allUnits} handlNewSearchSet={this.props.handlNewSearchSet}/>
+          <HeaderMenuArea visibleAreas={this.props.visibleAreas}/>
         </Navbar.Collapse>
       </Navbar>      
     );
   }
 }
 
-SearchArea.PropTypes = {
+HeaderArea.PropTypes = {
   // for MenuArea
   visibleAreas: PropTypes.object.isRequired,
   // for searchArea

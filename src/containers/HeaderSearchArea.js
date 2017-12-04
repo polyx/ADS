@@ -2,7 +2,7 @@ import React from 'react';
 import {FormGroup, Navbar, FormControl, Button, Glyphicon} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export default class SearchArea extends React.Component {
+export default class HeaderSearchArea extends React.Component {
 
   constructor() {
     super();
@@ -44,7 +44,7 @@ export default class SearchArea extends React.Component {
   }
 }
 
-SearchArea.PropTypes = {
+HeaderSearchArea.PropTypes = {
   allUnits: PropTypes.array.isRequired,
   handlNewSearchSet: PropTypes.func.isRequired,
 }

@@ -2,7 +2,7 @@ import {baseUrl} from './BaseUrl';
 
 
 export const loadOrgUnits = async () => {
-  return await loadQuery('organisationUnits.json?paging=false&fields=id,displayName,children,featureType,coordinates');
+  return await loadQuery('organisationUnits.json?paging=false&fields=id,name,children,featureType,coordinates');
 }
 
 
