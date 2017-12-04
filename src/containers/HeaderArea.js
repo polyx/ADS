@@ -1,6 +1,6 @@
 import React from 'react';
 import {Navbar} from 'react-bootstrap';
-import {baseUrl} from '../components/BaseUrl';
+import {baseUrl} from '../globals/BaseUrl';
 import HeaderMenu from './HeaderMenu';
 import HeaderSearch from './HeaderSearch';
 import PropTypes from 'prop-types';
