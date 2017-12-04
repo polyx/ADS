@@ -34,7 +34,6 @@ export default class InfoSheetArea extends React.Component {
     this.setState({
       tabsObj: tabsObj
     });
-    console.log(this.state.tabsObj);
   }
 
 
@@ -110,6 +109,9 @@ export default class InfoSheetArea extends React.Component {
 
   handleTabSelect(tabKey) {
     this.setState({activeTabKey: tabKey});
+    if (this.state.tabsObj[tabKey] !== undefined) {
+      this.props.passNewSelectedOrgId(this.state.tabsObj[tabKey].id);
+    }
   }
 
   render() {
@@ -120,8 +122,7 @@ export default class InfoSheetArea extends React.Component {
           <Tab eventKey={0} title={this.state.tabsObj[0] ? this.state.tabsObj[0].name : 'Tab1'}> {this.renderInfo(0)} </Tab>
           <Tab eventKey={1} title={this.state.tabsObj[1] ? this.state.tabsObj[1].name : 'Tab2'}> {this.renderInfo(1)} </Tab>
           <Tab eventKey={2} title={this.state.tabsObj[2] ? this.state.tabsObj[2].name : 'Tab3'}> {this.renderInfo(2)} </Tab>          
-        </Tabs>
-        
+        </Tabs>        
       </div>
     );    
   }
@@ -129,4 +130,5 @@ export default class InfoSheetArea extends React.Component {
 
 InfoSheetArea.propTypes = {
   selectedOrg: PropTypes.object,
+  passNewSelectedOrgId: PropTypes.func.isRequired,
 }
