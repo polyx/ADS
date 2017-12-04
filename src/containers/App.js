@@ -44,8 +44,9 @@ class Main extends React.Component {
   }
 
   handlNewSelectedOrgId(newId) {
-    let newSelectedObj = this.state.allUnits.find((org) => {return org.id = newId});
-    this.setState({selectedOrg: newSelectedObj})
+    console.log("handlNewSelectedOrgId " + newId);
+    let newSelectedObj = this.state.allUnits.find((org) => {return org.id === newId});
+    this.setState({selectedOrg: newSelectedObj});
   }
 
   renderHeader() {
@@ -80,6 +81,7 @@ class Main extends React.Component {
     />;
     let infoArea = <InfoSheetArea
       selectedOrg={this.state.selectedOrg}
+      searchSet={this.state.searchSet}
     />;
     let mapArea = <MapArea 
       selectedOrg={this.state.selectedOrg}

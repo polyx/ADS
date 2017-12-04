@@ -8,7 +8,7 @@ export default class InfoSheetArea extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTabKey: 0,
+      activeTabKey: 1,          // 0 is for the search tab, 
       noSrchTabKey: 1,
       activePanelKey: 0,
       tabsObj: [],
@@ -19,23 +19,33 @@ export default class InfoSheetArea extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    //console.log('info ' + nextProps.selectedOrg);
-    if ((this.state.tabsObj[this.state.noSrchTabKey] === undefined) ||
-        (this.state.tabsObj[this.state.noSrchTabKey].id !== nextProps.selectedOrg.id)) {
-      this.handleNewSelectedOrg(nextProps.selectedOrg);
-    } 
+    console.log(nextProps);
+    if (nextProps.selectedOrg !== null) {
+      if ((this.state.tabsObj[this.state.noSrchTabKey] === undefined) ||
+      (this.state.tabsObj[this.state.noSrchTabKey].id !== nextProps.selectedOrg.id)) {
+        this.handleNewSelectedOrg(nextProps.selectedOrg);
+      } 
+    }
+
+    if (nextProps.searchSet !== this.props.searchSet) {
+      this.handleNewSearchSet(nextProps.searchSet);
+    }
   }
 
 
   async handleNewSelectedOrg(org) {
-    //console.log(org);
     let orgUnitObj = await loadQuery('organisationUnits/' + org.id + '.json');
-    //console.log(orgUnitObj);
     let tabsObj = this.state.tabsObj;
     tabsObj[this.state.noSrchTabKey] = orgUnitObj;
     this.setState({
       tabsObj: tabsObj
     });
+  }
+
+
+  handleNewSearchSet(newSet) {
+    this.setState({activeTabKey: 0});
+    
   }
 
   handlePanelSelect(panelKey) {
@@ -66,7 +76,7 @@ export default class InfoSheetArea extends React.Component {
     let lastUpdated = (obj !== undefined) ? (obj.created ? moment(obj.lastUpdated).format("YYYY-MM-DD") : null) : null;
     let openingDate = (obj !== undefined) ? (obj.created ? moment(obj.openingDate).format("YYYY-MM-DD") : null) : null;
     return (
-      <ListGroup >
+      <ListGroup fill>
         <ListGroupItem header="Name">{name}</ListGroupItem>
         <ListGroupItem header="Short Name">{shortName}</ListGroupItem>
         <ListGroupItem header="Display Name">{displayName}</ListGroupItem>
@@ -107,9 +117,18 @@ export default class InfoSheetArea extends React.Component {
   }
 
   renderSearch() {
+    //let styleItem = {height:'30px', padding: '5px'};
     return(
-      <div>
-      </div>
+      // <ListGroup >
+      //   {this.props.searchSet.map((org) => {
+      //     return <ListGroupItem key={org.id} onClick={()=>{console.log(org.id)}} style={styleItem}>{org.name}</ListGroupItem>
+      //   })}
+      // </ListGroup>    
+      <ol >
+      {this.props.searchSet.map((org) => {
+        return <li key={org.id} onClick={()=>{console.log(org.id)}} style={{cursor: 'pointer'}}>{org.name}</li>
+      })}
+    </ol>      
     );
   }
 
@@ -121,10 +140,11 @@ export default class InfoSheetArea extends React.Component {
   }
 
   render() {
+    let styleTab = {padding: '1px, 1px, 1px 1px'};
     return(
       <div>
-        <Tabs activeKey={this.state.activeTabKey} onSelect={this.handleTabSelect} id="controlled-tab">
-          <Tab eventKey={0} title="Search"> {this.rendeSearch} </Tab>
+        <Tabs activeKey={this.state.activeTabKey} onSelect={this.handleTabSelect} id="controlled-tab" style={styleTab}>
+          <Tab eventKey={0} title="Search"> {this.renderSearch()} </Tab>
           <Tab eventKey={1} title={this.state.tabsObj[1] ? this.state.tabsObj[1].name : 'Tab1'}> {this.renderInfo(1)} </Tab>
           <Tab eventKey={2} title={this.state.tabsObj[2] ? this.state.tabsObj[2].name : 'Tab2'}> {this.renderInfo(2)} </Tab>
           <Tab eventKey={3} title={this.state.tabsObj[3] ? this.state.tabsObj[3].name : 'Tab3'}> {this.renderInfo(3)} </Tab>          
@@ -136,5 +156,7 @@ export default class InfoSheetArea extends React.Component {
 }
 
 InfoSheetArea.propTypes = {
-  // selectedOrg: PropTypes.o,
+  allUnits: PropTypes.array,
+  searchSet: PropTypes.array,
+  selectedOrg: PropTypes.object,
 }
