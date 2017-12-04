@@ -44,7 +44,7 @@ export default class HeaderSearchArea extends React.Component {
   }
 }
 
-HeaderSearchArea.PropTypes = {
+HeaderSearchArea.propTypes = {
   allUnits: PropTypes.array.isRequired,
   handlNewSearchSet: PropTypes.func.isRequired,
 }

@@ -135,6 +135,6 @@ export default class InfoSheetArea extends React.Component {
   }
 }
 
-InfoSheetArea.PropTypes = {
+InfoSheetArea.propTypes = {
   // selectedOrg: PropTypes.o,
 }

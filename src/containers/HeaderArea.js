@@ -34,7 +34,7 @@ export default class HeaderArea extends React.Component {
   }
 }
 
-HeaderArea.PropTypes = {
+HeaderArea.propTypes = {
   // for MenuArea
   visibleAreas: PropTypes.object.isRequired,
   // for searchArea

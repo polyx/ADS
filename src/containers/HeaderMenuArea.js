@@ -18,6 +18,6 @@ export default class HeaderMenuArea extends React.Component {
   }
 }
 
-HeaderMenuArea.PropTypes = {
+HeaderMenuArea.propTypes = {
   visibleAreas: PropTypes.object.isRequired,
 };

@@ -37,7 +37,7 @@ export default class MapArea extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    //console.log(nextProps);
   }    
 
   prepPointCoords(point){

@@ -13,7 +13,6 @@ export default class TreeArea extends React.Component {
     super(props);
 
     this.state = {
-      tree: '',
       selectedBookkeping: [],
       selectedOrgId: "",
       // highlightedBookkeping: dataSource.map() => false
@@ -97,19 +96,20 @@ export default class TreeArea extends React.Component {
     
 
   handleClickLabel(i) {
-    console.log('handleClickLabel ' + i);
+    //console.log('handleClickLabel ' + i);
     this.setState({selectedOrgId: i}, () => {this.props.passNewSelectedOrgId(i)});
   } 
 
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.searchSet.length !== 0 && !this.areEqualSearchSets(this.props.searchSet, nextProps.searchSet)) {
-      console.log(nextProps.searchSet);
-      console.log('handle new searchSet');
+      // future feature with showing searchSet
+      // console.log(nextProps.searchSet);
+      // console.log('handle new searchSet');
     }
     if (nextProps.selectedOrg !== null && this.state.selectedOrgId !== nextProps.selectedOrg.id ) {
-      console.log('componentWillReceiveProps old selectedOrgId ' + this.state.selectedOrgId);
-      console.log('componentWillReceiveProps new selectedOrgId ' + nextProps.selectedOrg.id);
+      //console.log('componentWillReceiveProps old selectedOrgId ' + this.state.selectedOrgId);
+      //console.log('componentWillReceiveProps new selectedOrgId ' + nextProps.selectedOrg.id);
       this.setState({selectedOrgId: nextProps.selectedOrg.id});
     }
   }
@@ -142,10 +142,10 @@ export default class TreeArea extends React.Component {
   }
 }
 
-TreeArea.PropTypes = {
-  allUnits: PropTypes.array,
-  levelOne: PropTypes.array,
+TreeArea.propTypes = {
+  allUnits: PropTypes.array.isRequired,
+  levelOne: PropTypes.array.isRequired,
   searchSet: PropTypes.array.isRequired,
-  selectedOrgId: PropTypes.number,
+  selectedOrg: PropTypes.object,
   passNewSelectedOrgId: PropTypes.func.isRequired,
 }
