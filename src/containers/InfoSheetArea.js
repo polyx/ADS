@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Tabs, Tab,PanelGroup, Panel, ListGroup, ListGroupItem} from 'react-bootstrap';
 import moment from 'moment';
-import {loadQuery} from '../components/LoadOrgUnits';
+import {loadQuery} from '../api';
 
 export default class InfoSheetArea extends React.Component {
   constructor(props) {

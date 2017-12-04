@@ -2,6 +2,7 @@ import React from 'react';
 import {Nav, NavDropdown, NavItem, Glyphicon} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
+import {isUserAdmin} from '../globals/UserInfo';
 
 export default class HeaderMenu extends React.Component {
   render() {
@@ -10,7 +11,9 @@ export default class HeaderMenu extends React.Component {
         <NavDropdown pullRight noCaret id="dropDownMenu" title={<Glyphicon glyph="menu-hamburger"/>}>
           <NavItem>
             <p>Info</p>
-            <Link to="/admin">Admin</Link>
+          </NavItem>
+          <NavItem>
+            {isUserAdmin ? <Link to="/admin">Admin</Link> : null}
           </NavItem>
       </NavDropdown>
      </Nav>     
