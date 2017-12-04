@@ -20,8 +20,8 @@ class Main extends React.Component {
       isUrlReady: false,
       isAllUnitsReady: false,
       allUnits: [],                   // array of json objs  [{{name: },{id:},{children:},{featureType:},{coordinates:}},...]
-      levelOne: [],                   // array of json objs 
-      selectedOrg: null,              // a json obj 
+      levelOne: [],                   // array of json objs
+      selectedOrg: null,              // a json obj
       searchSet: [],
       visibleAreas: {tree: true, info: true, map: true},
     };
@@ -44,7 +44,7 @@ class Main extends React.Component {
   }
 
   handlNewSelectedOrgId(newId) {
-    let newSelectedObj = this.state.allUnits.find((org) => {return org.id = newId});
+    let newSelectedObj = this.state.allUnits.find((org) => {return org.id === newId});
     this.setState({selectedOrg: newSelectedObj})
   }
 
@@ -81,7 +81,7 @@ class Main extends React.Component {
     let infoArea = <InfoSheetArea
       selectedOrg={this.state.selectedOrg}
     />;
-    let mapArea = <MapArea 
+    let mapArea = <MapArea
       selectedOrg={this.state.selectedOrg}
       allUnits={this.state.allUnits}
       levelOne={this.state.levelOne}
