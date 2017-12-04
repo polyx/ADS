@@ -58,7 +58,7 @@ export default class MapArea extends React.Component {
       }else if (selectedOrg.featureType === "MULTI_POLYGON"){
         // console.log(selectedOrg.coordinates);
         this.setState({
-          coordinates: selectedOrg.coordinates,
+          coordinates: coordinates,
           featureType: selectedOrg.featureType
         });
       }
@@ -77,7 +77,6 @@ export default class MapArea extends React.Component {
       coordinates = this.prepPolygonCoords(coordinates);
     } else if (selectedOrg.featureType === "MULTI_POLYGON") {
       coordinates = this.prepMultiPolygon(coordinates);
-      console.log(coordinates);
     }
     return coordinates;
   }
@@ -132,6 +131,14 @@ export default class MapArea extends React.Component {
       });
       L.marker(coords, {icon: ico}).addTo(this.map);
       this.map.setView(coords, 15);
+    }else if(type === "MULTI_POLYGON"){
+      let polygonGroup = L.featureGroup();
+        for (let polygonCoordinates of coords) {
+            let polygon = L.polygon(polygonCoordinates);
+            polygonGroup.addLayer(polygon);
+        }
+        polygonGroup.addTo(this.map);
+        this.map.fitBounds(polygonGroup.getBounds());
     }
 
   }

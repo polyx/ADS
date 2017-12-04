@@ -1,4 +1,4 @@
-const demoUrl = 'https://inf5750.dhis2.org/demo/api'; //'https://inf5750.dhis2.org/demo/api';
+const demoUrl = 'https://play.dhis2.org/demo/api'; //'https://inf5750.dhis2.org/demo/api';
 export var baseUrl;
 
 export let getBaseUrl  = new Promise ((resolve, reject) => {
