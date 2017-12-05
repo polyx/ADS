@@ -18,6 +18,7 @@ export const loadQuery = (query) => {
     .catch(err => {
       console.log(err);
       alert(err);
+      reject(err);
     });
   });
 }

@@ -107,7 +107,7 @@ export default class MainPage extends React.Component {
     return (
         <div>
           {this.renderHeader()}
-          <div>{this.state.isAllUnitsReady ? this.renderMain() : this.renderLoading()}</div>
+          {this.state.isAllUnitsReady ? this.renderMain() : this.renderLoading()}
         </div>
     );
   }

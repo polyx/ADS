@@ -57,7 +57,7 @@ export default class SearchTree extends React.Component {
       const label = 
       <span 
         className="node"
-        onClick={this.handleClickLabel.bind(null, node.id)}>
+        onClick={this.handleClickLabel.bind(this, node.id)}>
           {node.name}
       </span>;      
       return (
@@ -65,7 +65,7 @@ export default class SearchTree extends React.Component {
           key={node.id}
           nodeLabel={label}
           defaultCollapsed={(levels > 0) ? false : true}          
-          onClick={this.handleClickArrow.bind(null, node.id)}
+          onClick={this.handleClickArrow.bind(this, node.id)}
           >
             {this.createTreeRec(node.children, allUnits, levels-1)}
         </TreeView>
@@ -77,7 +77,7 @@ export default class SearchTree extends React.Component {
         <div 
           className='info'
           key={node.id}
-          onClick={this.handleClickLabel.bind(null, node.id)}>
+          onClick={this.handleClickLabel.bind(this, node.id)}>
             {node.name}
         </div>
       );

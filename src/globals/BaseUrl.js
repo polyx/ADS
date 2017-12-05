@@ -21,6 +21,7 @@ export const prepBaseUrl  = () => {
     })
     .catch((err) => {
       console.log(err);
+      alert(err);
       reject(err);
     });
   });
