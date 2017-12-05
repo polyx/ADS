@@ -5,6 +5,7 @@ import {
   putDataElementSettings, deleteDataElementSettings
 } from "../api";
 import HeaderArea from "./HeaderArea";
+import {Link} from "react-router-dom";
 
 
 export default class AdminPage extends React.Component {
@@ -21,23 +22,28 @@ export default class AdminPage extends React.Component {
   async componentDidMount() {
     let orgData = await getOrgUnit(this.state.orgID);
     let dataElementsArr = [];
-    let dataElemsToShow;
+    let dataElemsToShow = await getDataElementSettings(orgData.id);
+    console.log(dataElemsToShow);
     for (let dataSet of orgData.dataSets) {
       let data = await getDataSet(dataSet.id);
-      dataElemsToShow = await getDataElementSettings(orgData.id);
       for (let dataSetElement of data.dataSetElements) {
         // console.log(dataSetElement);
         dataElementsArr.push(dataSetElement.dataElement.id);
       }
     }
-    let x = await loadDataElements(dataElementsArr);
+    let dataElems = await loadDataElements(dataElementsArr);
+    if (dataElemsToShow){
+      this.setState({
+        dataElements: dataElems,
+        ready: true,
+        showDataElements: dataElemsToShow
+      });
+    }
     this.setState({
-      dataElements: x,
+      dataElements: dataElems,
       ready: true,
-      showDataElements: dataElemsToShow.httpStatusCode !== 404 ? dataElemsToShow : undefined
+      showDataElements: {}
     });
-    console.log(x);
-
   }
 
   render() {
@@ -46,12 +52,14 @@ export default class AdminPage extends React.Component {
         <HeaderArea/>
         <Grid>
           <Row>
-            <Col xs={3} md={4}>
-            </Col>
-            <Col xs={9} md={8}>
+            <Col xs={12} md={12}>
               <PanelGroup style={{fontSize: "1em"}} activeKey={this.state.activePanelKey}
                           onSelect={this.handlePanelSelect}>
-                <Panel collapsible header="Data Elements">
+                <Panel collapsible defaultExpanded header={
+                  <div style={{height: "1.5em"}}>
+                    <span style={{float: "left"}}>Data Elements</span>
+                    <span style={{float: "right"}}><Link to={""}>Back</Link></span>
+                  </div>}>
                   <ListGroup fill>
                     {this.state.ready && (
                       this.state.dataElements.dataElements.map((elem) => {
@@ -96,8 +104,8 @@ class DataElemenetItem extends React.Component {
 
   async showDataElement(elemID, orgID) {
     let dataElemSettings = await getDataElementSettings(orgID);
-
-    if (dataElemSettings.httpStatusCode === 404) {
+    console.log(dataElemSettings);
+    if (dataElemSettings === null || dataElemSettings.httpStatusCode === 404) {
       let resp = await postDataElementSettings(elemID, orgID);
       console.log(resp);
     } else {
