@@ -1,5 +1,5 @@
-export const local = true;
-// export const local = false;
+// export const local = true;
+export const local = false;
 const demoUrl = "https://play.dhis2.org/demo/api";
 // const demoUrl = 'https://inf5750.dhis2.org/demo/api';
 // const demoUrl = 'https://inf5750.dhis2.org/training/api';
