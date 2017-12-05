@@ -1,9 +1,14 @@
-/ads_settings/:orgID:
+api/dataStore
+
+/ads_data_elems/:orgID:
 {
-    // 1, 2, 3, 4, 5
-    dataElements_hidden: [1, 2],
-    indicators_hidden: [1, 2, 3]
+    "id1": 0,
+    "id2": -1,
 }
+
+
+
+/
 
 /ads_porposals/:orgID:
 {
