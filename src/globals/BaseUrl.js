@@ -1,8 +1,13 @@
+export const local = true;
+// export const local = false;
 const demoUrl = "https://play.dhis2.org/demo/api";
 // const demoUrl = 'https://inf5750.dhis2.org/demo/api';
 // const demoUrl = 'https://inf5750.dhis2.org/training/api';
+
+
+
+
 export var baseUrl;
-export let local = false;
 export let url = local ? "" : process.env.PUBLIC_URL;
 export const prepBaseUrl = () => {
   return new Promise((resolve, reject) => {
