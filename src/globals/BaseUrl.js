@@ -11,13 +11,12 @@ export var baseUrl;
 export let url = local ? "" : process.env.PUBLIC_URL;
 export const prepBaseUrl = () => {
   return new Promise((resolve, reject) => {
-    console.log("URL:", url);
-    console.log("PUBLIC URL:", process.env.PUBLIC_URL);
+    //console.log("URL:", url);
+    //console.log("PUBLIC URL:", process.env.PUBLIC_URL);
     fetch(url+ "/manifest.webapp", {
       credentials: "include"
     })
     .then((resp) => {
-      console.log(resp);
       return resp.json();})
     .then((data) => {
       let url = data.activities.dhis.href;

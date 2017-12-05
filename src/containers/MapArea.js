@@ -151,7 +151,7 @@ export default class MapArea extends React.Component {
 
         {(this.state.featureType !== "NONE" && (
           <div>
-            <h3>Map:</h3>
+            {/* <h3>Map:</h3> */}
             <div id="map" style={mapStyle}></div>
           </div>
         )) ||
