@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormGroup, Navbar, FormControl, Button, Glyphicon} from 'react-bootstrap';
+import {FormGroup, Navbar, FormControl} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Fuse from 'fuse.js';
 

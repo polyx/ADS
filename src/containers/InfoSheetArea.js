@@ -12,7 +12,10 @@ export default class InfoSheetArea extends React.Component {
     this.state = {
       activeTabKey: 0,
       activePanelKey: 0,
-      tabsObj: [],
+      tabObj: [],
+      tabDataSets: [],
+      tabOrgUnitGroups: [],
+      tabPermissions: [],
     }
     this.handleTabSelect = this.handleTabSelect.bind(this);
     this.handlePanelSelect = this.handlePanelSelect.bind(this);
@@ -21,8 +24,9 @@ export default class InfoSheetArea extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedOrg !== null) {
-      if ((this.state.tabsObj[this.state.activeTabKey] === undefined) ||
-      (this.state.tabsObj[this.state.activeTabKey].id !== nextProps.selectedOrg.id)) {
+      if ((this.state.tabObj[this.state.activeTabKey] === undefined) ||
+      (this.state.tabObj[this.state.activeTabKey].id !== nextProps.selectedOrg.id)) {
+        console.log('handleNewSelectedOrg');
         this.handleNewSelectedOrg(nextProps.selectedOrg);
       } 
     }
@@ -31,29 +35,43 @@ export default class InfoSheetArea extends React.Component {
 
   async handleNewSelectedOrg(org) {
     let orgUnitObj = await loadQuery('organisationUnits/' + org.id + '.json');
-    let tabsObj = this.state.tabsObj;
-    tabsObj[this.state.activeTabKey] = orgUnitObj;
+    let tabObj = this.state.tabObj;
+    tabObj[this.state.activeTabKey] = orgUnitObj;
+
+    let ids = ''.concat(orgUnitObj.dataSets.map((dataSet)=>{return dataSet.id}));
+    let dataSets = await loadQuery(`/dataSets.json?paging=false&filter=id:in:[${ids}]&fields=id,displayName`);
+    dataSets = dataSets.dataSets;
+    let tabDataSets = this.state.tabDataSets;
+    tabDataSets[this.state.activeTabKey] = dataSets;
+
+    ids = ''.concat(orgUnitObj.organisationUnitGroups.map((group)=>{return group.id}));
+    let orgUnitGroups = await loadQuery(`/organisationUnitGroups.json?paging=false&filter=id:in:[${ids}]&fields=id,displayName`);
+    orgUnitGroups = orgUnitGroups.organisationUnitGroups;
+    let tabOrgUnitGroups = this.state.tabOrgUnitGroups;
+    tabOrgUnitGroups[this.state.activeTabKey] = orgUnitGroups;
+
     this.setState({
-      tabsObj: tabsObj
+      tabObj: tabObj,
+      tabDataSets: tabDataSets,
+      tabOrgUnitGroups: tabOrgUnitGroups,
     });
   }
 
 
   handlePanelSelect(panelKey) {
-
+    console.log(panelKey);
   }
 
 
   renderInfo(tabKey) {
-    let obj = this.state.tabsObj[tabKey];
+    let obj = this.state.tabObj[tabKey];
 
     return (
       <PanelGroup style={{fontSize:'1em'}} activeKey={this.state.activePanelKey} onSelect={this.handlePanelSelect}>
-        <Panel collapsible defaultExpanded header="Basic Information" eventKey="1">{this.renderPanelBasic(obj)}</Panel>
-        <Panel collapsible header="Groups" eventKey="2">{this.renderPanelGroups(obj)}</Panel>
-        <Panel collapsible header="Data Sets" eventKey="3">{this.renderPanelDataSets(obj)}</Panel>
-        <Panel collapsible header="Users" eventKey="4">{this.renderPanelUsers(obj)}</Panel>
-        <Panel collapsible header="Parent/Children" eventKey="5">{this.renderPanelParents(obj)}</Panel>
+        <Panel collapsible defaultExpanded={true} header="Basic Information" eventKey="0">{this.renderPanelBasic(tabKey)}</Panel>
+        <Panel collapsible defaultExpanded={false} header="Data Sets" eventKey="1">{this.renderPanelDataSets(tabKey)}</Panel>
+        <Panel collapsible defaultExpanded={false} header="Organization Unit Groups" eventKey="2">{this.renderPanelOrgGroups(tabKey)}</Panel>
+        <Panel collapsible header="Users" eventKey="4">{this.renderPanelUsers(tabKey)}</Panel>
         {obj && (<Panel collapsible header="Manage" eventKey="6">{this.renderManagePanel(obj)}</Panel>)}
       </PanelGroup>
     );
@@ -69,9 +87,8 @@ export default class InfoSheetArea extends React.Component {
     );
   }
 
-  renderPanelBasic(obj) {
-    let name = (obj !== undefined) ? obj.name : null;
-    let shortName = (obj !== undefined) ? obj.shortName : null;
+  renderPanelBasic(tabKey) {
+    let obj = this.state.tabObj[tabKey];
     let displayName = (obj !== undefined) ? obj.displayName : null;
     let level = (obj !== undefined) ? obj.level : null;
     let created = (obj !== undefined) ? (obj.created ? moment(obj.created).format("YYYY-MM-DD") : null) : null;
@@ -79,27 +96,36 @@ export default class InfoSheetArea extends React.Component {
     let openingDate = (obj !== undefined) ? (obj.created ? moment(obj.openingDate).format("YYYY-MM-DD") : null) : null;
     return (
       <ListGroup fill>
-        <ListGroupItem header="Name">{name}</ListGroupItem>
-        <ListGroupItem header="Short Name">{shortName}</ListGroupItem>
-        <ListGroupItem header="Display Name">{displayName}</ListGroupItem>
-        <ListGroupItem header="Level">{level}</ListGroupItem>
-        <ListGroupItem header="Created">{created}</ListGroupItem>
-        <ListGroupItem header="Opening Date">{openingDate}</ListGroupItem>
-        <ListGroupItem header="Last Updated">{lastUpdated}</ListGroupItem>        
+        <ListGroupItem><b>Name:</b> {displayName}</ListGroupItem>
+        <ListGroupItem><b>Level:</b> {level}</ListGroupItem>
+        <ListGroupItem><b>Creacted:</b> {created}</ListGroupItem>
+        <ListGroupItem><b>Opening Date:</b> {openingDate}</ListGroupItem>
+        <ListGroupItem><b>Last Updated:</b> {lastUpdated}</ListGroupItem>        
       </ListGroup>
     );
   }
 
-  renderPanelGroups() {
+  renderPanelOrgGroups(tabKey) {
+    let groups = this.state.tabOrgUnitGroups[tabKey];
+    let list = groups ?
+      groups.map((group,i)=>{return (<ListGroupItem key={i}>{group.displayName}</ListGroupItem>)}) 
+      : null;
     return (
-      <ListGroup >
-     </ListGroup>
+      <ListGroup fill>  
+       {list}
+      </ListGroup>
     );
   }
 
-  renderPanelDataSets() {
+  renderPanelDataSets(tabKey) {
+    let dataSets = this.state.tabDataSets[tabKey];
+    let list = dataSets ? 
+      dataSets.map((dataSet,i)=>{return (<ListGroupItem key={i}>{dataSet.displayName}</ListGroupItem>)}) 
+      : null;
+    // console.log(dataSets);
     return (
-      <ListGroup >
+      <ListGroup fill>
+        {list}          
      </ListGroup>
     );
   }
@@ -111,19 +137,12 @@ export default class InfoSheetArea extends React.Component {
     );
   }
 
-  renderPanelParents() {
-    return (
-      <ListGroup >
-     </ListGroup>
-    );
-  }
-
 
 
   handleTabSelect(tabKey) {
     this.setState({activeTabKey: tabKey});
-    if (this.state.tabsObj[tabKey] !== undefined) {
-      this.props.passNewSelectedOrgId(this.state.tabsObj[tabKey].id);
+    if (this.state.tabObj[tabKey] !== undefined) {
+      this.props.passNewSelectedOrgId(this.state.tabObj[tabKey].id);
     }
   }
 
@@ -132,9 +151,9 @@ export default class InfoSheetArea extends React.Component {
     return(
       <div>
         <Tabs activeKey={this.state.activeTabKey} onSelect={this.handleTabSelect} id="controlled-tab" style={styleTab}>
-          <Tab eventKey={0} title={this.state.tabsObj[0] ? this.state.tabsObj[0].name : 'Tab1'}> {this.renderInfo(0)} </Tab>
-          <Tab eventKey={1} title={this.state.tabsObj[1] ? this.state.tabsObj[1].name : 'Tab2'}> {this.renderInfo(1)} </Tab>
-          <Tab eventKey={2} title={this.state.tabsObj[2] ? this.state.tabsObj[2].name : 'Tab3'}> {this.renderInfo(2)} </Tab>          
+          <Tab eventKey={0} title={this.state.tabObj[0] ? this.state.tabObj[0].name : 'Tab1'}> {this.renderInfo(0)} </Tab>
+          <Tab eventKey={1} title={this.state.tabObj[1] ? this.state.tabObj[1].name : 'Tab2'}> {this.renderInfo(1)} </Tab>
+          <Tab eventKey={2} title={this.state.tabObj[2] ? this.state.tabObj[2].name : 'Tab3'}> {this.renderInfo(2)} </Tab>          
         </Tabs>        
       </div>
     );    

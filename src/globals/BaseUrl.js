@@ -8,7 +8,9 @@ export const prepBaseUrl  = () => {
     fetch('./manifest.webapp', {
       credentials: "include"
     })
-    .then((resp) => resp.json())
+    .then((resp) => {
+      console.log(resp);
+      return resp.json();})
     .then((data) => {
       let url = data.activities.dhis.href;
       if (url === '*') {  

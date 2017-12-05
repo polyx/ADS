@@ -92,7 +92,7 @@ export default class MainPage extends React.Component {
               {this.state.visibleAreas.tree ? searchArea : null}
             </Col>
             <Col xs={9} md={5}>
-              {this.  state.visibleAreas.info ? infoArea : null}
+              {this.state.visibleAreas.info ? infoArea : null}
             </Col>
             <Col xs={6} md={5}>
               {this.state.visibleAreas.map ? mapArea : null}
