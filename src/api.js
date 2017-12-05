@@ -32,6 +32,53 @@ export const loadDataElements = async (dataElements) => {
   return await loadQuery("dataElements.json?paging=false&filter=id:in:"+"["+dataElements+"]");
 };
 
+export const postDataElementSettings = async (elemID, orgID) => {
+  console.log();
+  let reqBody = {};
+  reqBody[elemID] = 0;
+  reqBody = JSON.stringify(reqBody);
+  let resp = await fetch(`${baseUrl}/dataStore/ads_data_elems/${orgID}`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: reqBody
+  });
+  return await resp.json();
+};
+
+export const deleteDataElementSettings = async (elemID, orgID) => {
+  // console.log(reqBody);
+  let resp = await fetch(`${baseUrl}/dataStore/ads_data_elems/${orgID}`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return await resp.json();
+};
+
+export const putDataElementSettings = async (elemID, orgID, reqBody) => {
+  // console.log(reqBody);
+  reqBody = JSON.stringify(reqBody);
+  let resp = await fetch(`${baseUrl}/dataStore/ads_data_elems/${orgID}`, {
+    method: "PUT",
+    credentials: "include",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: reqBody
+  });
+  return await resp.json();
+};
+
+export const getDataElementSettings = async (orgID) => {
+  return await loadQuery("dataStore/ads_data_elems/"+orgID)
+};
+
 export const getOrgUnit = async (orgID) => {
   return await loadQuery("organisationUnits/"+orgID);
 };

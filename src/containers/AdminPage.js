@@ -1,6 +1,10 @@
 import React from "react";
 import {Button, Col, Glyphicon, Grid, ListGroup, ListGroupItem, Panel, PanelGroup, Row} from "react-bootstrap";
-import {getDataSet, getOrgUnit, loadDataElements} from "../api";
+import {
+  getDataElementSettings, getDataSet, getOrgUnit, loadDataElements, postDataElementSettings,
+  putDataElementSettings, deleteDataElementSettings
+} from "../api";
+import HeaderArea from "./HeaderArea";
 
 
 export default class AdminPage extends React.Component {
@@ -17,9 +21,10 @@ export default class AdminPage extends React.Component {
   async componentDidMount() {
     let orgData = await getOrgUnit(this.state.orgID);
     let dataElementsArr = [];
+    let dataElemsToShow;
     for (let dataSet of orgData.dataSets) {
       let data = await getDataSet(dataSet.id);
-      // console.log(data.dataSetElements);
+      dataElemsToShow = await getDataElementSettings(orgData.id);
       for (let dataSetElement of data.dataSetElements) {
         // console.log(dataSetElement);
         dataElementsArr.push(dataSetElement.dataElement.id);
@@ -28,7 +33,8 @@ export default class AdminPage extends React.Component {
     let x = await loadDataElements(dataElementsArr);
     this.setState({
       dataElements: x,
-      ready: true
+      ready: true,
+      showDataElements: dataElemsToShow.httpStatusCode !== 404 ? dataElemsToShow : undefined
     });
     console.log(x);
 
@@ -41,20 +47,97 @@ export default class AdminPage extends React.Component {
           <Col xs={3} md={4}>
           </Col>
           <Col xs={9} md={8}>
-            <PanelGroup style={{fontSize:'1em'}} activeKey={this.state.activePanelKey} onSelect={this.handlePanelSelect}>
+            <PanelGroup style={{fontSize: "1em"}} activeKey={this.state.activePanelKey}
+                        onSelect={this.handlePanelSelect}>
               <Panel collapsible header="Data Elements">
                 <ListGroup fill>
-                {this.state.ready && this.state.dataElements.dataElements.map((elem) => {
-                  return (<ListGroupItem key={elem.id}>
-                    <Button bsStyle="danger"><Glyphicon glyph="remove-circle" />Hide</Button>{elem.displayName}
-                  </ListGroupItem>)
-                })}
+                  {this.state.ready && (
+                    this.state.dataElements.dataElements.map((elem) => {
+                      return (
+                        <ListGroupItem key={elem.id}>
+                          <DataElemenetItem elem={elem}
+                                            orgID={this.state.orgID}
+                                            toShow={(this.state.showDataElements)}/> {elem.displayName}
+                        </ListGroupItem>);
+                    })
+                  )}
                 </ListGroup>
               </Panel>
             </PanelGroup>
           </Col>
         </Row>
       </Grid>
+    );
+  }
+}
+
+class DataElemenetItem extends React.Component {
+  constructor(props) {
+    super(props);
+    if (props.elem.id in props.toShow) {
+      this.state = {
+        elem: props.elem,
+        btnStyle: "danger",
+        glyph: "minus",
+        label: "hide",
+      };
+    } else {
+      this.state = {
+        elem: props.elem,
+        btnStyle: "success",
+        glyph: "plus",
+        label: "show"
+      };
+    }
+  }
+
+  async showDataElement(elemID, orgID) {
+    let dataElemSettings = await getDataElementSettings(orgID);
+
+    if (dataElemSettings.httpStatusCode === 404) {
+      let resp = await postDataElementSettings(elemID, orgID);
+      console.log(resp);
+    } else {
+      console.log(dataElemSettings);
+      let body = dataElemSettings;
+      body[elemID] = 0;
+      let resp;
+      // console.log(body);
+      // let resp = await deleteDataElementSettings(elemID, orgID);
+      // console.log(resp);
+      resp = await putDataElementSettings(elemID, orgID, body);
+      console.log(resp);
+    }
+  }
+
+  async hideDataElement(elemID, orgID){
+    let dataElemSettings = await getDataElementSettings(orgID);
+    if(dataElemSettings.httpStatusCode !== 404){
+      delete dataElemSettings[elemID];
+      let resp = await putDataElementSettings(elemID, orgID, dataElemSettings);
+      console.log(resp);
+    }
+  }
+
+  render() {
+    return (
+      <Button bsStyle={this.state.btnStyle} bsSize="small" onClick={(event) => {
+        if (this.state.btnStyle === "success") {
+          this.setState({
+            btnStyle: "danger",
+            glyph: "minus",
+            label: "hide",
+          });
+          this.showDataElement(this.state.elem.id, this.props.orgID);
+        } else {
+          this.setState({
+            btnStyle: "success",
+            glyph: "plus",
+            label: "show"
+          });
+          this.hideDataElement(this.state.elem.id, this.props.orgID);
+        }
+      }}><Glyphicon glyph={this.state.glyph}/> {this.state.label}</Button>
     );
   }
 }
