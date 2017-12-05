@@ -27,7 +27,8 @@ export default class App extends React.Component{
       <Router>
         <div>
           <Route exact path="/" component={MainPage}/>
-          <Route path="/admin" component={AdminPage}/>
+          <Route exact path="/admin" component={AdminPage}/>
+          <Route path="/admin/:orgID" component={AdminPage} />
         </div>
     </Router>
     );
