@@ -22,12 +22,24 @@ export const loadQuery = (query) => {
       // reject(err);
     });
   });
-}
+};
 
+export const loadDataElements = async (dataElements) => {
+  console.log("URL:","dataElements.json?paging=false&filter=id:in:"+"["+ dataElements+"]");
+  return await loadQuery("dataElements.json?paging=false&filter=id:in:"+"["+dataElements+"]");
+};
+
+export const getOrgUnit = async (orgID) => {
+  return await loadQuery("organisationUnits/"+orgID);
+};
+//
+export const getDataSet = async (dataSetID) => {
+  return await loadQuery("dataSets/"+dataSetID);
+};
 
 export const loadOrgUnits = async () => {
   return await loadQuery('organisationUnits.json?paging=false&fields=id,name,children,featureType,coordinates');
-}
+};
 
 
 export const checkIfAdmin = async () => {
@@ -37,4 +49,4 @@ export const checkIfAdmin = async () => {
     return el.authorities.includes('F_INDICATOR_PUBLIC_ADD')
   })) ? true : false;
   return isAdmin;
-}
+};

@@ -1,0 +1,14 @@
+/ads_settings/:orgID:
+{
+    // 1, 2, 3, 4, 5
+    dataElements_hidden: [1, 2],
+    indicators_hidden: [1, 2, 3]
+}
+
+/ads_porposals/:orgID:
+{
+    userID: [{
+        status: "accepted|rejected|pending",
+        proposalText: "blah"
+    }, {...}]
+}

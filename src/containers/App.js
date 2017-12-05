@@ -1,5 +1,5 @@
 import React from 'react';
-import {prepBaseUrl} from '../globals/BaseUrl';
+import {local, prepBaseUrl, url} from "../globals/BaseUrl";
 import {prepUserInfo} from '../globals/UserInfo';
 import MainPage from './MainPage';
 import AdminPage from './AdminPage';
@@ -23,11 +23,17 @@ export default class App extends React.Component{
   
 
   renderRouter() {
+
     return(
       <Router>
         <div>
-          <Route exact path="/" component={MainPage}/>
-          <Route path="/admin" component={AdminPage}/>
+          <Route exact path={(!local && url+"/index.html") || "/"}>
+            <div>
+              <Route path="" component={MainPage}/>
+              {/*<Route path={"/admin"} component={AdminPage}/>*/}
+              <Route path={"/admin/:orgID"} component={AdminPage} />
+            </div>
+          </Route>
         </div>
     </Router>
     );
