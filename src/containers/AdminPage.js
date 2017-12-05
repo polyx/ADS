@@ -42,31 +42,34 @@ export default class AdminPage extends React.Component {
 
   render() {
     return (
-      <Grid>
-        <Row>
-          <Col xs={3} md={4}>
-          </Col>
-          <Col xs={9} md={8}>
-            <PanelGroup style={{fontSize: "1em"}} activeKey={this.state.activePanelKey}
-                        onSelect={this.handlePanelSelect}>
-              <Panel collapsible header="Data Elements">
-                <ListGroup fill>
-                  {this.state.ready && (
-                    this.state.dataElements.dataElements.map((elem) => {
-                      return (
-                        <ListGroupItem key={elem.id}>
-                          <DataElemenetItem elem={elem}
-                                            orgID={this.state.orgID}
-                                            toShow={(this.state.showDataElements)}/> {elem.displayName}
-                        </ListGroupItem>);
-                    })
-                  )}
-                </ListGroup>
-              </Panel>
-            </PanelGroup>
-          </Col>
-        </Row>
-      </Grid>
+      <div>
+        <HeaderArea/>
+        <Grid>
+          <Row>
+            <Col xs={3} md={4}>
+            </Col>
+            <Col xs={9} md={8}>
+              <PanelGroup style={{fontSize: "1em"}} activeKey={this.state.activePanelKey}
+                          onSelect={this.handlePanelSelect}>
+                <Panel collapsible header="Data Elements">
+                  <ListGroup fill>
+                    {this.state.ready && (
+                      this.state.dataElements.dataElements.map((elem) => {
+                        return (
+                          <ListGroupItem key={elem.id}>
+                            <DataElemenetItem elem={elem}
+                                              orgID={this.state.orgID}
+                                              toShow={(this.state.showDataElements)}/> {elem.displayName}
+                          </ListGroupItem>);
+                      })
+                    )}
+                  </ListGroup>
+                </Panel>
+              </PanelGroup>
+            </Col>
+          </Row>
+        </Grid>
+      </div>
     );
   }
 }

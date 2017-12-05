@@ -9,8 +9,6 @@ export default class HeaderArea extends React.Component {
 
   constructor() {
     super();
-    this.state = {
-    }
   }
 
   render() {
@@ -24,17 +22,18 @@ export default class HeaderArea extends React.Component {
           </Navbar.Brand>
         <Navbar.Toggle />
         </Navbar.Header>
+        {this.props.visibleAreas &&
         <Navbar.Collapse>
           <HeaderSearch allUnits={this.props.allUnits} handlNewSearchSet={this.props.handlNewSearchSet}/>
           <HeaderMenu visibleAreas={this.props.visibleAreas}/>
-        </Navbar.Collapse>
+        </Navbar.Collapse>}
       </Navbar>      
     );
   }
 }
 
 HeaderArea.propTypes = {
-  visibleAreas: PropTypes.object.isRequired,
-  allUnits: PropTypes.array.isRequired,
-  handlNewSearchSet: PropTypes.func.isRequired,
+  visibleAreas: PropTypes.object,
+  allUnits: PropTypes.array,
+  handlNewSearchSet: PropTypes.func,
 }
