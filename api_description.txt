@@ -2,6 +2,8 @@
 {
     // 1, 2, 3, 4, 5
     dataElements_hidden: [1, 2],
+
+    "elemID": 0|1
     indicators_hidden: [1, 2, 3]
 }
 
