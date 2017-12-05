@@ -64,7 +64,8 @@ export default class HeaderMenu extends React.Component {
             <p>User Info</p>
           </NavItem>
           <NavItem>
-            {isUserAdmin ? <Link to="/admin">Admin</Link> : null}
+            {/* {isUserAdmin ? <Link to="/admin">Admin</Link> : null} */}
+            {isUserAdmin ? <p>Admin</p> : null}
           </NavItem>
       </NavDropdown>                
      </Nav>

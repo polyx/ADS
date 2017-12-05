@@ -9,7 +9,7 @@ export const loadQuery = (query) => {
     .then(response => {
       if (response.redirected === true & response.url.includes('login.action')) {
         throw new Error('Please login to dhis2');
-      } else if (response.status === 404) {
+      } else if ((response.status >= 400) & (response.status <= 599)) {
         console.log(response);
         resolve(null);
       }

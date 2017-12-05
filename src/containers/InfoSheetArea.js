@@ -51,7 +51,8 @@ export default class InfoSheetArea extends React.Component {
     let tabOrgUnitGroups = this.state.tabOrgUnitGroups;
     tabOrgUnitGroups[this.state.activeTabKey] = orgUnitGroups;
     // fetching data elements, indicators, year
-    let dataStorDataElems = await loadQuery(`/dataStore/ads_data_elems/${org.id}`);
+    let dataStorDataElems = await loadQuery(`dataStore/ads_data_elems/${org.id}`);
+    console.log(dataStorDataElems);
     //let dataStorDataElems = await loadQuery(`/dataStore/ads_data_elems/1111`);
     //let dataStorDataElems = {'FTRrcoaog83':0, 'P3jJH5Tu5VC':0};
     let dataElems;
@@ -78,14 +79,18 @@ export default class InfoSheetArea extends React.Component {
     let pe = 2017;
     let dx = Object.keys(dStorDataElems).join(';');
     let analytics = await loadQuery(`26/analytics?paging=false&dimension=dx:${dx}&dimension=pe:${pe}&dimension=ou:${ou}`);
-    // console.log(analytics);
-    let dataElemsData = analytics.rows.map((row) => {
-      let arr = [];
-      arr.push(row[0]);
-      arr.push(row[3]);
-      arr.push(analytics.metaData.items[row[0]].name);
-      return arr;
-    });
+    let dataElemsData;
+    if (analytics !== null) {
+      dataElemsData = analytics.rows.map((row) => {
+        let arr = [];
+        arr.push(row[0]);
+        arr.push(row[3]);
+        arr.push(analytics.metaData.items[row[0]].name);
+        return arr;
+      });
+    } else {
+      dataElemsData = null;
+    }
     // console.log(dataElemsData);
     return dataElemsData;
   }
@@ -113,8 +118,8 @@ export default class InfoSheetArea extends React.Component {
   renderManagePanel(obj){
     return(
           <ButtonToolbar>
-            <Link to={"/admin/"+obj.id}><Button>Manage</Button></Link>
-            <Button>Propose Changes</Button>
+            {isUserAdmin ? <Link to={"/admin/"+obj.id}><Button>Manage</Button></Link> : null}
+            <Button disabled>Propose Changes</Button>
           </ButtonToolbar>
     );
   }
