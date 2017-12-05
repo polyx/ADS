@@ -1,5 +1,5 @@
 import React from "react";
-import {Col, Grid, ListGroup, ListGroupItem, Panel, PanelGroup, Row} from "react-bootstrap";
+import {Button, Col, Glyphicon, Grid, ListGroup, ListGroupItem, Panel, PanelGroup, Row} from "react-bootstrap";
 import {getDataSet, getOrgUnit, loadDataElements} from "../api";
 
 
@@ -46,7 +46,7 @@ export default class AdminPage extends React.Component {
                 <ListGroup fill>
                 {this.state.ready && this.state.dataElements.dataElements.map((elem) => {
                   return (<ListGroupItem key={elem.id}>
-                    {elem.displayName}
+                    <Button bsStyle="danger"><Glyphicon glyph="remove-circle" />Hide</Button>{elem.displayName}
                   </ListGroupItem>)
                 })}
                 </ListGroup>
