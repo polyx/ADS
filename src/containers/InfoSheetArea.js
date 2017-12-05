@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tabs, Tab,PanelGroup, Panel, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Tabs, Tab, PanelGroup, Panel, ListGroup, ListGroupItem, Button, ButtonToolbar} from "react-bootstrap";
 import moment from 'moment';
 import {loadQuery} from '../api';
+import {isUserAdmin} from '../globals/UserInfo';
+import {Link} from "react-router-dom";
 
 export default class InfoSheetArea extends React.Component {
   constructor(props) {
@@ -52,7 +54,18 @@ export default class InfoSheetArea extends React.Component {
         <Panel collapsible header="Data Sets" eventKey="3">{this.renderPanelDataSets(obj)}</Panel>
         <Panel collapsible header="Users" eventKey="4">{this.renderPanelUsers(obj)}</Panel>
         <Panel collapsible header="Parent/Children" eventKey="5">{this.renderPanelParents(obj)}</Panel>
+        {obj && (<Panel collapsible header="Manage" eventKey="6">{this.renderManagePanel(obj)}</Panel>)}
       </PanelGroup>
+    );
+  }
+
+  renderManagePanel(obj){
+    console.log(obj);
+    return(
+          <ButtonToolbar>
+            <Link to={"/admin/"+obj.id}><Button>Manage</Button></Link>
+            <Button>Propose Changes</Button>
+          </ButtonToolbar>
     );
   }
 
