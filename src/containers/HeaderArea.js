@@ -4,6 +4,7 @@ import HeaderMenu from './HeaderMenu';
 import HeaderSearch from './HeaderSearch';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
+import {local, url} from "../globals/BaseUrl";
 
 export default class HeaderArea extends React.Component {
   render() {
@@ -11,8 +12,8 @@ export default class HeaderArea extends React.Component {
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to={"/"}>
-              <img src="/dhis2.png" alt="dhis2"/>
+            <Link to={(!local && url+"/index.html") || "/"}>
+              <img src={url+"/dhis2.png"} alt="dhis2"/>
             </Link>
 
           </Navbar.Brand>

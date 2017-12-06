@@ -6,6 +6,7 @@ import {
 } from "../api";
 import HeaderArea from "./HeaderArea";
 import {Link} from "react-router-dom";
+import {local, url} from "../globals/BaseUrl";
 
 
 export default class AdminPage extends React.Component {
@@ -58,7 +59,7 @@ export default class AdminPage extends React.Component {
                 <Panel collapsible defaultExpanded header={
                   <div style={{height: "1.5em"}}>
                     <span style={{float: "left"}}>Data Elements</span>
-                    <span style={{float: "right"}}><Link to={""}>Back</Link></span>
+                    <span style={{float: "right"}}><Link to={(!local && url+"/index.html") || "/"}>Back</Link></span>
                   </div>}>
                   <ListGroup fill>
                     {this.state.ready && (
