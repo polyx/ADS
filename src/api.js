@@ -10,7 +10,7 @@ export const loadQuery = (query) => {
       if (response.redirected === true & response.url.includes('login.action')) {
         throw new Error('Please login to dhis2');
       } else if ((response.status >= 400) & (response.status <= 599)) {
-        console.log(response);
+        // console.log(response);
         resolve(null);
       }
       return response.json();
@@ -19,7 +19,7 @@ export const loadQuery = (query) => {
       resolve(jsonData);
     })
     .catch(err => {
-      console.log(err);
+      // console.log(err);
       alert(err);
       resolve(null);
       // reject(err);

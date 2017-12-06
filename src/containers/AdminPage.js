@@ -24,7 +24,7 @@ export default class AdminPage extends React.Component {
     let orgData = await getOrgUnit(this.state.orgID);
     let dataElementsArr = [];
     let dataElemsToShow = await getDataElementSettings(orgData.id);
-    console.log(dataElemsToShow);
+    // console.log(dataElemsToShow);
     for (let dataSet of orgData.dataSets) {
       let data = await getDataSet(dataSet.id);
       for (let dataSetElement of data.dataSetElements) {
