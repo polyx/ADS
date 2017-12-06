@@ -8,7 +8,12 @@
 }
 
 .node:hover {
-  /* background-color: rgb(220, 245, 243); */
+  background-color: rgb(220, 245, 243);
+  cursor: pointer;
+}
+
+.info:hover {
+  background-color: rgb(220, 245, 243);
   cursor: pointer;
 }
 

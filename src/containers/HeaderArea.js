@@ -1,17 +1,11 @@
 import React from 'react';
 import {Navbar} from 'react-bootstrap';
-import {baseUrl, local, url} from "../globals/BaseUrl";
 import HeaderMenu from './HeaderMenu';
 import HeaderSearch from './HeaderSearch';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 
 export default class HeaderArea extends React.Component {
-
-  constructor() {
-    super();
-  }
-
   render() {
     return (
       <Navbar inverse collapseOnSelect>

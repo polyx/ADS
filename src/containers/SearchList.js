@@ -6,11 +6,11 @@ export default class SearchList extends React.Component {
     //let styleList = {height:'30px', padding: '5px'};
     let styleList = {cursor: 'pointer'};
     return(
-      <ol>
+      <ul>
         {this.props.searchSet.map((org) => {
-          return <li key={org.id} onClick={()=>{this.props.passNewSelectedOrgId(org.id)}} style={styleList}>{org.name}</li>
+          return <li key={org.id} onClick={()=>{this.props.passNewSelectedOrgId(org.id)}}  className='info' style={styleList}>{org.name}</li>
         })}
-      </ol>
+      </ul>
     );
   }
 }

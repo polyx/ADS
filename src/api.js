@@ -28,12 +28,10 @@ export const loadQuery = (query) => {
 };
 
 export const loadDataElements = async (dataElements) => {
-  console.log("URL:","dataElements.json?paging=false&filter=id:in:"+"["+ dataElements+"]");
   return await loadQuery("dataElements.json?paging=false&filter=id:in:"+"["+dataElements+"]");
 };
 
 export const postDataElementSettings = async (elemID, orgID) => {
-  console.log();
   let reqBody = {};
   reqBody[elemID] = 0;
   reqBody = JSON.stringify(reqBody);
@@ -50,7 +48,6 @@ export const postDataElementSettings = async (elemID, orgID) => {
 };
 
 export const deleteDataElementSettings = async (elemID, orgID) => {
-  // console.log(reqBody);
   let resp = await fetch(`${baseUrl}/dataStore/ads_data_elems/${orgID}`, {
     method: "DELETE",
     credentials: "include",
@@ -62,7 +59,6 @@ export const deleteDataElementSettings = async (elemID, orgID) => {
 };
 
 export const putDataElementSettings = async (elemID, orgID, reqBody) => {
-  // console.log(reqBody);
   reqBody = JSON.stringify(reqBody);
   let resp = await fetch(`${baseUrl}/dataStore/ads_data_elems/${orgID}`, {
     method: "PUT",
@@ -82,7 +78,7 @@ export const getDataElementSettings = async (orgID) => {
 export const getOrgUnit = async (orgID) => {
   return await loadQuery("organisationUnits/"+orgID);
 };
-//
+
 export const getDataSet = async (dataSetID) => {
   return await loadQuery("dataSets/"+dataSetID);
 };

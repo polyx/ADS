@@ -59,7 +59,7 @@ export default class SearchTree extends React.Component {
         className="node"
         onClick={this.handleClickLabel.bind(this, node.id)}>
           {node.name}
-      </span>;      
+      </span>;
       return (
         <TreeView
           key={node.id}

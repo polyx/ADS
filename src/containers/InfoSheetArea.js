@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tabs, Tab, PanelGroup, Panel, ListGroup, ListGroupItem, Table, Button, ButtonToolbar} from "react-bootstrap";
+import {Tabs, Tab, PanelGroup, Panel, ListGroup, ListGroupItem, Button, ButtonToolbar} from "react-bootstrap";
 import moment from 'moment';
 import {loadQuery} from '../api';
 import {isUserAdmin} from '../globals/UserInfo';
@@ -26,7 +26,6 @@ export default class InfoSheetArea extends React.Component {
     if (nextProps.selectedOrg !== null) {
       if ((this.state.tabObj[this.state.activeTabKey] === undefined) ||
       (this.state.tabObj[this.state.activeTabKey].id !== nextProps.selectedOrg.id)) {
-        //console.log('handleNewSelectedOrg');
         this.handleNewSelectedOrg(nextProps.selectedOrg);
       } 
     }
@@ -51,10 +50,7 @@ export default class InfoSheetArea extends React.Component {
     let tabOrgUnitGroups = this.state.tabOrgUnitGroups;
     tabOrgUnitGroups[this.state.activeTabKey] = orgUnitGroups;
     // fetching data elements, indicators, year
-    let dataStorDataElems = await loadQuery(`dataStore/ads_data_elems/${org.id}`);
-    console.log(dataStorDataElems);
-    //let dataStorDataElems = await loadQuery(`/dataStore/ads_data_elems/1111`);
-    //let dataStorDataElems = {'FTRrcoaog83':0, 'P3jJH5Tu5VC':0};
+    let dataStorDataElems = await loadQuery(`dataStore/ads_data_elems/${org.id}`);    
     let dataElems;
     if (dataStorDataElems !== null) {
       dataElems = await this.fetchAnalyticsData(dataStorDataElems, org.id);
@@ -64,7 +60,6 @@ export default class InfoSheetArea extends React.Component {
     let tabDataElems = this.state.tabDataElems;
     tabDataElems[this.state.activeTabKey] = dataElems;
 
-    console.log(dataElems);
 
     this.setState({
       tabObj: tabObj,
@@ -76,7 +71,7 @@ export default class InfoSheetArea extends React.Component {
 
   async fetchAnalyticsData(dStorDataElems, orgId){
     let ou = orgId;
-    let pe = 2017;
+    let pe = moment(new Date()).format("YYYY");
     let dx = Object.keys(dStorDataElems).join(';');
     let analytics = await loadQuery(`26/analytics?paging=false&dimension=dx:${dx}&dimension=pe:${pe}&dimension=ou:${ou}`);
     let dataElemsData;
@@ -91,7 +86,6 @@ export default class InfoSheetArea extends React.Component {
     } else {
       dataElemsData = null;
     }
-    // console.log(dataElemsData);
     return dataElemsData;
   }
 
@@ -117,10 +111,10 @@ export default class InfoSheetArea extends React.Component {
 
   renderManagePanel(obj){
     return(
-          <ButtonToolbar>
-            {isUserAdmin ? <Link to={"/admin/"+obj.id}><Button>Manage</Button></Link> : null}
-            <Button disabled>Propose Changes</Button>
-          </ButtonToolbar>
+      <ButtonToolbar>
+        {isUserAdmin ? <Link to={"/admin/"+obj.id}><Button>Manage</Button></Link> : null}
+        <Button disabled>Propose Changes</Button>
+      </ButtonToolbar>
     );
   }
 
@@ -159,7 +153,6 @@ export default class InfoSheetArea extends React.Component {
     let list = dataSets ? 
       dataSets.map((dataSet,i)=>{return (<ListGroupItem key={i}>{dataSet.displayName}</ListGroupItem>)}) 
       : null;
-    // console.log(dataSets);
     return (
       <ListGroup fill>
         {list}          
@@ -169,7 +162,6 @@ export default class InfoSheetArea extends React.Component {
 
   renderPanelDataElems(tabKey) {
     let dataElems = this.state.tabDataElems[tabKey];
-    console.log(dataElems);
     let list = dataElems ?
       dataElems.map((dataElems,i)=>{return (<ListGroupItem key={i}>{dataElems[2]}: <span style={{float: 'right'}}>{dataElems[1]}</span></ListGroupItem>)})
       : null;
