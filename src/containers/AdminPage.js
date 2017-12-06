@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Col, Glyphicon, Grid, ListGroup, ListGroupItem, Panel, PanelGroup, Row} from "react-bootstrap";
 import {
   getDataElementSettings, getDataSet, getOrgUnit, loadDataElements, postDataElementSettings,
-  putDataElementSettings, deleteDataElementSettings
+  putDataElementSettings,
 } from "../api";
 import HeaderArea from "./HeaderArea";
 import {Link} from "react-router-dom";

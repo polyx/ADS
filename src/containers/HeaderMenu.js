@@ -1,7 +1,6 @@
 import React from 'react';
 import {Nav, NavDropdown, NavItem, Glyphicon, Modal, Button} from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import {Link} from "react-router-dom";
 import moment from 'moment';
 import {isUserAdmin, userObj, userGroups, userOrgUnits} from '../globals/UserInfo';
 
