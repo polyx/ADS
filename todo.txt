@@ -1,3 +1,0 @@
-- wiki
-- links when deployed
-- hide areas

@@ -1,5 +1,6 @@
 import React from 'react';
-import L from 'leaflet'
+import L from 'leaflet';
+import {local, url} from "../globals/BaseUrl";
 
 
 export default class MapArea extends React.Component {
@@ -109,7 +110,7 @@ export default class MapArea extends React.Component {
       this.map.fitBounds(bounds);
     } else if (type === "POINT") {
       let ico = L.icon({
-        iconUrl: "/marker.png",
+        iconUrl: url+"/marker.png",
         iconSize: [25, 41],
         iconAnchor: [12, 41],
       });
