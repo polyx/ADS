@@ -8,7 +8,7 @@ export default class SearchList extends React.Component {
     return(
       <ul>
         {this.props.searchSet.map((org) => {
-          return <li key={org.id} onClick={()=>{this.props.passNewSelectedOrgId(org.id)}} style={styleList}>{org.name}</li>
+          return <li key={org.id} onClick={()=>{this.props.passNewSelectedOrgId(org.id)}}  className='info' style={styleList}>{org.name}</li>
         })}
       </ul>
     );
